@@ -1,0 +1,34 @@
+{% extends 'base.html' %}
+{% block titulo %} DatosdelUsuario post {% endblock  %}
+
+{% block contenido %}
+    <h1>Datos del Usuario</h1>
+    <p>Aquí puedes editar la información de tu perfil.</p>
+
+    {% if usuario %}
+        <li><b>Nombres:</b> {{ usuario.nombres }}</li>
+        <li><b>Apellidos:</b> {{ usuario.apellidos }}</li>
+        <li><b>Cédula:</b> {{ usuario.cedula }}</li>
+        <li><b>Dirección:</b> {{ usuario.direccion }}</li>
+        <li><b>Mensaje:</b> {{ usuario.mensaje }}</li>
+    {% endif %}
+
+    <form action="" method="post">
+        <label for="nombres">Nombres:</label>
+        <input type="text" id="nombres" name="nombres">
+        <br>
+        <label for="apellidos">Apellidos:</label>
+        <input type="text" id="apellidos" name="apellidos">
+        <br>
+        <label for="cedula">Cedula:</label>
+        <input type="text" id="cedula" name="cedula">
+        <br>
+        <label for="direccion">Direccion:</label>
+        <textarea name="direccion" id="direccion"></textarea>
+        <br>
+        <label for="mensaje">Mensaje:</label>
+        <textarea name="mensaje" id="mensaje"></textarea>
+        <br>
+        <button type="submit">Enviar</button>
+    </form>
+{% endblock  %}

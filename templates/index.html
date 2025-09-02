@@ -1,4 +1,142 @@
-<h1>Bienvenidos a la pagina principal</h1>
-
 {% extends 'base.html' %}
-{% block titulo %} INICIO {% endblock  %}
+{% block title %}Prueba{% endblock title %}
+
+{% block body %}
+
+<div id="carouselExample" class="carousel slide" data-bs-ride="carousel">
+    <div class="carousel-inner">
+        <div class="carousel-item active" data-bs-interval="2000">
+            <img src="{{ url_for('static', filename='img/imagen 1.png') }}" class="d-block w-100" alt="...">
+        </div>
+        <div class="carousel-item active" data-bs-interval="2000">
+            <img src="{{ url_for('static', filename='img/imagen 2.png') }}" class="d-block w-100" alt="...">
+        </div>
+        <div class="carousel-item active" data-bs-interval="2000">
+            <img src="{{ url_for('static', filename='img/imagen 3.png') }}" class="d-block w-100" alt="...">
+        </div>
+    </div>
+    <button class="carousel-control-prev" type="button" data-bs-target="#carouselExample" data-bs-slide="prev">
+        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Previous</span>
+    </button>
+    <button class="carousel-control-next" type="button" data-bs-target="#carouselExample" data-bs-slide="next">
+        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Next</span>
+    </button>
+</div>
+
+<!-- Contenedor principal encabezado-->
+<div class="container-fluid p-5 bg-primary text-white text-center">
+    <h1>Pagina de la Libreria</h1>
+    <p>¡Encuentra información sobre utiles escolares!</p>
+</div>
+
+<!-- Contenedor de columnas pie de pagina -->
+<div class="container mt-5 p-4">
+    <h1>Información</h1>
+    <div class="row">
+
+        <div class="col-sm-auto border rounded m-2 p-3">
+            <h3>Información 1</h3>
+            <p>Información importante sobre utiles escolares</p>
+            <p>¡Encuentra los utiles escolares que necesitas!</p>
+        </div>
+
+        <div class="col-sm-auto border rounded m-2 p-3">
+            <h3>Información 2</h3>
+            <p>Información importante sobre todo tipos de cuadernos</p>
+            <p>¡Encuentra lo que necesitas para tus estudios!</p>
+        </div>
+
+        <div class="col-sm-auto border rounded m-2 p-3">
+            <h3>Información 3</h3>
+            <p>Información importante sobre materiales escolares</p>
+            <p>¡Encuentra lo que necesites para tus proyectos!</p>
+        </div>
+
+    </div>
+</div>
+
+<div class="container mt-5">
+    <h1>Servicios</h1>
+    <div class="row">
+
+        <div class="col-sm-4">
+            <div class="card" style="width: 18rem;">
+                <img src="{{ url_for('static', filename='img/imagenventa.png') }}"
+                    class="card-img-top rounded-circle mx-auto d-block mt-3"
+                    style="width:180px; height:180px; object-fit:cover;" alt="...">
+                <div class="card-body">
+                    <h5 class="card-title">Ventas</h5>
+                    <p class="card-text">pagina para las ventas</p>
+                    <a href="#" class="btn btn-primary">Ver Mas..</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-sm-4">
+            <div class="card" style="width: 18rem;">
+                <img src="{{ url_for('static', filename='img/imagenproducto.png') }}"
+                    class="card-img-top rounded-circle mx-auto d-block mt-3"
+                    style="width:180px; height:180px; object-fit:cover;" alt="...">
+                <div class="card-body">
+                    <h5 class="card-title">Productos</h5>
+                    <p class="card-text">pagina para los productos</p>
+                    <a href="#" class="btn btn-primary">Ver Mas..</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-sm-4">
+            <div class="card" style="width: 18rem;">
+                <img src="{{ url_for('static', filename='img/imagencarrito.png') }}"
+                    class="card-img-top rounded-circle mx-auto d-block mt-3"
+                    style="width:180px; height:180px; object-fit:cover;" alt="...">
+                <div class="card-body">
+                    <h5 class="card-title">Carrito</h5>
+                    <p class="card-text">pagina para el carrito</p>
+                    <a href="#" class="btn btn-primary">Ver Mas..</a>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+</div>
+
+<!-- Pie de página -->
+<hr>
+<style>
+    a.text-white:hover {
+        color: #14b477 !important;
+        /* Cambia este color por el que prefieras */
+        text-decoration: underline;
+    }
+</style>
+<footer>
+    <div class="container mt-5 bg-dark text-white">
+        <div class="row">
+            <div class="col-sm-6">
+                <h5>APP</h5>
+                <p>
+                    <a href="https://www.youtube.com/" target="_blank" class="text-white">YouTube</a>
+                </p>
+                <p>
+                    <a href="https://www.facebook.com/" target="_blank" class="text-white">Facebook</a>
+                </p>
+            </div>
+            <div class="col-sm-6">
+                <h5>RECURSOS</h5>
+                <a href=""></a>
+                <p>Acerca de...</p>
+                <p>Contactos</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Pie de página derechos de autor -->
+    <div class="container mt-5 bg-light">
+        <p class="text-center">Copyright © 2025 - UNAN Chontales</p>
+    </div>
+</footer>
+{% endblock %}

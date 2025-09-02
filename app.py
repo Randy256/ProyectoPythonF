@@ -1,18 +1,34 @@
-from flask import Flask
+from flask import Flask, render_template, url_for
 
 app=Flask(__name__)
 
 @app.route('/')
-def home(): # Funcion para la ruta principal
-    return "Hola mundo"
+def index(): # Funcion para la ruta principal
+    return render_template('index.html')
 
 @app.route('/contacto')
 def contacto(): # Funcion para la ruta de contacto
-    return "Esta es la pagina de contacto"
+    return render_template('contacto.html')
 
-@app.route('/about')
+@app.route('/usuario')
+def usuario():
+    return render_template('usuario.html')
+
+@app.route('/acercade')
 def about(): # Funcion para la ruta de acerca de
-    return "Esta es la pagina de acerca de"
+    return render_template('acercade.html')
+
+@app.route('/login')
+def login(): # Funcion para la ruta de login
+    return render_template('login.html')
+
+@app.route('/registros')
+def registros(): # Funcion para la ruta de registros
+    return render_template('registros.html')
+
+@app.route('/productos')
+def productos(): # Funcion para la ruta de productos
+    return render_template('productos.html')
 
 @app.route('/servicios/<nombre>')
 def servicios(nombre): # Funcion para la ruta de servicios

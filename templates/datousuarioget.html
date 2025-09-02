@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+{% block titulo %} DatosdelUsuario get {% endblock  %}
+
+{% block contenido %}
+    <h1>Datos del Usuario</h1>
+    <p>Aquí puedes editar la información de tu perfil.</p>
+
+    <form action="" method="get">
+        <label for="nombres">Nombres:</label>
+        <input type="text" id="nombres" name="nombres">
+        <br>
+        <label for="apellidos">Apellidos:</label>
+        <input type="text" id="apellidos" name="apellidos">
+        <br>
+        <label for="cedula">Cedula:</label>
+        <input type="text" id="cedula" name="cedula">
+        <br>
+        <label for="direccion">Direccion:</label>
+        <textarea name="direccion" id="direccion"></textarea>
+        <br>
+        <label for="mensaje">Mensaje:</label>
+        <textarea name="mensaje" id="mensaje"></textarea>
+        <br>
+        <button type="submit">Enviar</button>
+    </form>
+{% endblock  %}
