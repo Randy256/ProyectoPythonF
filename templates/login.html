@@ -21,7 +21,7 @@
          <!-- Formulario de Login -->
          <div class="card shadow p-3" style="border-radius: 15px; margin-left: 24px; flex: 1;">
             <h3 class="text-center mb-3">Iniciar Sesión</h3>
-            <form>
+            <form action="{{ url_for('accesologin') }}" method="POST">
                <!-- Usuario -->
                <div class="mb-3">
                   <label for="email" class="form-label">Correo electrónico</label>
@@ -38,7 +38,10 @@
                   <label class="form-check-label" for="remember">Recordarme</label>
                </div>
                <!-- Botón -->
-               <button type="submit" class="btn btn-primary w-100">Iniciar Sesión</button>
+               <form>
+                  <button type="submit" class="btn btn-primary w-100"
+                     style="background: linear-gradient(90deg, #615f9c,#6175dd,#735ec6)">Iniciar Sesión</button>
+               </form>
                <!-- Botón Google -->
                <a href="" class="btn btn-light w-100 mt-2" style="border: 1px solid #ccc;">
                   <img src="{{ url_for('static', filename='img/Google.png') }}" alt="Google"

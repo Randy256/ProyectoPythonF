@@ -1,6 +1,18 @@
-from flask import Flask, render_template, request
+from flask import Flask, render_template, request, redirect, url_for, Response, session, flash
+from flask_mysqldb import MySQL 
 
 app=Flask(__name__)
+app.secret_key = 'mysql' #Clave secreta para sesiones
+mysql = MySQL() #Inicializar la ext MySQL
+
+# conexion de la base de datos
+app.config['MYSQL_HOST'] = 'localhost'
+app.config['MYSQL_PORT'] = 3306
+app.config['MYSQL_USER'] = 'root'
+app.config['MYSQL_PASSWORD'] = ''
+app.config['MYSQL_DB'] = 'ventas'
+app.config['MYSQL_CURSORCLASS'] = 'DictCursor'
+mysql.init_app(app)
 
 @app.route('/')
 def inicio():
@@ -68,11 +80,61 @@ def datousuariopost():
 
 @app.route('/usuario')
 def usuario():
-    return render_template('usuario.html')
+    if 'usuario' in session:
+        return render_template("usuario.html", usuario=session['usuario'])
+    else:
+        return redirect(url_for('login'))
 
-@app.route('/login')
+@app.route('/login', methods=['GET'])
 def login():
     return render_template('login.html')
+
+@app.route('/accesologin', methods=['POST'])
+def accesologin():
+    email = request.form.get('email')
+    password = request.form.get('password')
+
+    cur = mysql.connection.cursor()
+    cur.execute("SELECT * FROM usuario WHERE email=%s AND password=%s", (email, password))
+    user = cur.fetchone()
+    cur.close()
+
+    if user:
+        session['usuario'] = user['email']
+        session['rol'] = user['id_rol']
+
+        session['logueado'] = True
+        session['id']= user['id']
+
+        # Redirigir según rol
+        if user['id_rol'] == 1:
+            return render_template("admin.html", usuario=user['email'])
+        else:
+            return render_template("index.html", usuario=user['email'])
+    else:
+        return render_template("login.html", error="Credenciales inválidas")
+
+@app.route('/logout')
+def logout():
+    session.clear()
+    return redirect(url_for('inicio'))
+
+@app.route('/Registro', methods=['GET', 'POST'])
+def Registro():
+    if request.method == 'POST':
+        email = request.form.get('email')
+        password = request.form.get('password')
+        id_rol = 2  # Rol usuario por defecto
+
+        cur = mysql.connection.cursor()
+        cur.execute("INSERT INTO usuario (email, password, id_rol) VALUES (%s, %s, %s)",
+                    (email, password, id_rol))
+        mysql.connection.commit()
+        cur.close()
+
+        return redirect(url_for('inicio'))
+
+    return render_template("Registro.html")
 
 if __name__ == '__main__':
     app.run(debug=True, port=8000)
