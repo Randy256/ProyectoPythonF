@@ -80,8 +80,8 @@ def datousuariopost():
 
 @app.route('/usuario')
 def usuario():
-    if 'usuario' in session:
-        return render_template("usuario.html", usuario=session['usuario'])
+    if 'usuarios' in session:
+        return render_template("usuario.html", usuario=session['usuarios'])
     else:
         return redirect(url_for('login'))
 
@@ -95,12 +95,12 @@ def accesologin():
     password = request.form.get('password')
 
     cur = mysql.connection.cursor()
-    cur.execute("SELECT * FROM usuario WHERE email=%s AND password=%s", (email, password))
+    cur.execute("SELECT * FROM usuarios WHERE email=%s AND password=%s", (email, password))
     user = cur.fetchone()
     cur.close()
 
     if user:
-        session['usuario'] = user['email']
+        session['usuarios'] = user['email']
         session['rol'] = user['id_rol']
 
         session['logueado'] = True
@@ -127,7 +127,7 @@ def Registro():
         id_rol = 2  # Rol usuario por defecto
 
         cur = mysql.connection.cursor()
-        cur.execute("INSERT INTO usuario (email, password, id_rol) VALUES (%s, %s, %s)",
+        cur.execute("INSERT INTO usuarios (email, password, id_rol) VALUES (%s, %s, %s)",
                     (email, password, id_rol))
         mysql.connection.commit()
         cur.close()

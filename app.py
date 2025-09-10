@@ -39,12 +39,12 @@ def accesologin():
     password = request.form.get('password')
 
     cur = mysql.connection.cursor()
-    cur.execute("SELECT * FROM usuario WHERE email=%s AND password=%s", (email, password))
+    cur.execute("SELECT * FROM usuarios WHERE email=%s AND password=%s", (email, password))
     user = cur.fetchone()
     cur.close()
 
     if user:
-        session['usuario'] = user['email']
+        session['usuarios'] = user['email']
         session['rol'] = user['id_rol']
 
         session['logueado'] = True
@@ -56,7 +56,7 @@ def accesologin():
         else:
             return render_template("index.html", usuario=user['email'])
     else:
-        return render_template("login.html", error="Credenciales inválidas")
+        return render_template("admin.html", error="Credenciales inválidas")
 
 
 @app.route('/registros')
