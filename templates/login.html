@@ -3,58 +3,74 @@
 
 {% block body %}
 
-<!-- Contenedor principal centrado en pantalla -->
-<div style="min-height: 100vh; display: flex; align-items: center; justify-content: center;">
-   <div class="card shadow-lg p-4" style="width: 600px; border-radius: 20px; background-color: #1381d0;">
-      <div style="display: flex; align-items: center; justify-content: center;">
-         <!-- Imagen -->
-         <div class="card shadow mb-3 text-center" style="border-radius: 15px; width: 180px; background: white;">
-            <div class="card-body">
-               <img src="{{ url_for('static', filename='img/Login2.png') }}" alt="Logo" style="width:120px;">
-               <h1 style="font-size: 1.2rem; margin-top: 12px;">¡Bienvenido nuevamente!</h1>
-               <p style="margin-top: 8px;">Si aun no tienes una cuenta, por favor regístrate aqui</p>
-               <!-- Botón para ir a la pantalla de registros -->
-               <a href="{{ url_for('registros') }}" class="btn btn-success mt-2 w-100"
-                  style="background: linear-gradient(90deg, #615f9c,#6175dd,#735ec6)">Registrarse</a>
-            </div>
-         </div>
-         <!-- Formulario de Login -->
-         <div class="card shadow p-3" style="border-radius: 15px; margin-left: 24px; flex: 1;">
-            <h3 class="text-center mb-3">Iniciar Sesión</h3>
-            <form action="{{ url_for('accesologin') }}" method="POST">
-               <!-- Usuario -->
-               <div class="mb-3">
-                  <label for="email" class="form-label">Correo electrónico</label>
-                  <input type="email" class="form-control" id="email" placeholder="ejemplo@correo.com" required>
-               </div>
-               <!-- Contraseña -->
-               <div class="mb-3">
-                  <label for="password" class="form-label">Contraseña</label>
-                  <input type="password" class="form-control" id="password" placeholder="********" required>
-               </div>
-               <!-- Checkbox -->
-               <div class="mb-3 form-check">
-                  <input type="checkbox" class="form-check-input" id="remember">
-                  <label class="form-check-label" for="remember">Recordarme</label>
-               </div>
-               <!-- Botón -->
-               <form>
-                  <button type="submit" class="btn btn-primary w-100"
-                     style="background: linear-gradient(90deg, #615f9c,#6175dd,#735ec6)">Iniciar Sesión</button>
-               </form>
-               <!-- Botón Google -->
-               <a href="" class="btn btn-light w-100 mt-2" style="border: 1px solid #ccc;">
-                  <img src="{{ url_for('static', filename='img/Google.png') }}" alt="Google"
-                     style="width:20px; margin-right:8px; vertical-align:middle;">
-                  Iniciar Sesión con Google
-               </a>
-            </form>
-            <!-- Link adicional -->
-            <div class="text-center mt-3">
-               <a href="#">¿Olvidaste tu contraseña?</a>
-            </div>
-         </div>
-      </div>
+<!--MENSAJE DE ALERTA FLASH-->
+<!--Mostrar mensajes flash-->
+{% with msg = get_flashed_messages(with_categories=True) %}
+<!--Validando si hay mensajes flash-->
+{% if msg %}
+<!--Recorrer los mensajes flash, mas la categoria al cual pertenece-->
+{% for category, message in msg %}
+<div class="alert alert-{{ category }}" role="alert-dismissible fade show" role="alert">
+   <strong>{{ message }}</strong>
+   <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+</div>
+{% endfor %}
+{% endif %}
+{% endwith %}
+
+<!-- Imagen -->
+<div class="card shadow mb-3 text-center" style="border-radius: 15px; width: 180px; background: white;">
+   <div class="card-body">
+      <img src="{{ url_for('static', filename='img/Login2.png') }}" alt="Logo" style="width:120px;">
+      <h1 style="font-size: 1.2rem; margin-top: 12px;">¡Bienvenido nuevamente!</h1>
+      <p style="margin-top: 8px;">Si aun no tienes una cuenta, por favor regístrate aqui</p>
+      <!-- Botón para ir a la pantalla de registros -->
+      <a href="{{ url_for('registros') }}" class="btn btn-success mt-2 w-100"
+         style="background: linear-gradient(90deg, #615f9c,#6175dd,#735ec6)">Registrarse</a>
    </div>
+</div>
+<!-- Formulario de Login -->
+<div class="card shadow p-3" style="border-radius: 15px; margin-left: 24px; flex: 1;">
+   <h3 class="text-center mb-3">Iniciar Sesión</h3>
+   <form action="{{ url_for('accesologin') }}" method="POST">
+      <!-- Usuario -->
+      <div class="mb-3">
+         <label for="email" class="form-label">Correo electrónico</label>
+         <input type="email" class="form-control" id="email" placeholder="ejemplo@correo.com" required>
+      </div>
+      <!-- Contraseña -->
+      <div class="mb-3">
+         <label for="password" class="form-label">Contraseña</label>
+         <input type="password" class="form-control" id="password" placeholder="********" required>
+      </div>
+      <!-- Checkbox -->
+      <div class="mb-3 form-check">
+         <input type="checkbox" class="form-check-input" id="remember">
+         <label class="form-check-label" for="remember">Recordarme</label>
+      </div>
+      <!-- Botón -->
+      <form>
+         <button type="submit" class="btn btn-primary w-100"
+            style="background: linear-gradient(90deg, #615f9c,#6175dd,#735ec6)">Iniciar Sesión</button>
+      </form>
+      <!-- Botón Google -->
+      <a href="" class="btn btn-light w-100 mt-2" style="border: 1px solid #ccc;">
+         <img src="{{ url_for('static', filename='img/Google.png') }}" alt="Google"
+            style="width:20px; margin-right:8px; vertical-align:middle;">
+         Iniciar Sesión con Google
+      </a>
+   </form>
+   <!-- Link adicional -->
+   <div class="text-center mt-3">
+      <a href="#">¿Olvidaste tu contraseña?</a>
+   </div>
+   {% if error %}
+   <div class="alert alert-danger" role="alert">
+      {{ error }}
+   </div>
+   {% endif %}
+</div>
+</div>
+</div>
 </div>
 {% endblock %}

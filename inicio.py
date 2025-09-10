@@ -89,30 +89,27 @@ def usuario():
 def login():
     return render_template('login.html')
 
-@app.route('/accesologin', methods=['POST'])
+@app.route('/accesologin', methods=['GET', 'POST'])
 def accesologin():
-    email = request.form.get('email')
-    password = request.form.get('password')
+    if request.method == 'POST' and 'email' in request.form and 'password' in request.form:
+        email = request.form['email']
+        password = request.form['password']
 
-    cur = mysql.connection.cursor()
-    cur.execute("SELECT * FROM usuarios WHERE email=%s AND password=%s", (email, password))
-    user = cur.fetchone()
-    cur.close()
+        cursor = mysql.connection.cursor()
+        cursor.execute('SELECT * FROM usuarios WHERE email = %s AND password = %s', (email, password))
+        user = cursor.fetchone()
+        cursor.close()
 
-    if user:
-        session['usuarios'] = user['email']
-        session['rol'] = user['id_rol']
-
-        session['logueado'] = True
-        session['id']= user['id']
-
-        # Redirigir según rol
-        if user['id_rol'] == 1:
-            return render_template("admin.html", usuario=user['email'])
-        else:
-            return render_template("index.html", usuario=user['email'])
-    else:
-        return render_template("login.html", error="Credenciales inválidas")
+        if user:
+            session['id_rol'] = user['id_rol']
+            if user['id_rol'] == 1:
+                flash('¡Has iniciado sesión como administrador!', 'success')
+                return render_template('admin.html', user=user)
+            elif user['id_rol'] == 2:
+                return render_template('index.html')
+            else:
+                flash('Rol de usuario no reconocido.', 'danger')
+                return render_template('login.html', error='Credenciales incorrectas')
 
 @app.route('/logout')
 def logout():
