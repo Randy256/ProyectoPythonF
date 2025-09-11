@@ -1,0 +1,103 @@
+<!-- base.html -->
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Message Flashing en Flask</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384- QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous" />
+    <style>
+        /* Opcional, para diferenciar los mensajes */
+        * {
+            font-family: sans-serif;
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        .success {
+            color: green;
+        }
+
+        .error {
+            color: red;
+        }
+
+        .info {
+            color: blue;
+        }
+
+        .warning {
+            color: orange;
+        }
+    </style>
+</head>
+
+<body>
+    <h2>Hola, Flask</h2>
+
+    <!-- Mostrar mensajes flash -->
+    {% with messages = get_flashed_messages(with_categories=true) %}
+    <!-- Validando si hay mensajes flash -->
+    {% if messages %}
+    <ul>
+        <!-- Recorrer los mensajes flash, mas la categoria al cual pertenece -->
+        {% for category, message in messages %}
+        <!--Usa categoria css para personalizar el estilo-->
+        <li class=" {{ category }}">{{ message }}</li>
+        {% endfor %}
+    </ul>
+    {% endif %}
+    {% endwith %}
+</body>
+
+<body>
+    <div class="container m-5">
+        <div>
+            <div class="row justify-content-center">
+                <div class="col-12">
+                    <h1>Mensajes de Flask en flask</h1>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+
+<div class="row justify-content-center">
+    <div class="col-12">
+        <!-- Mostrar mensajes flash -->
+        {% with messages=get_flashed_messages(with_categories=True) %}
+        {% if messages %}
+        {% for category, message in messages %}
+        <!-- Usamos las clases de Bootstrap para las alertas -->;
+        <div class="alert alert-{{ category }} alert-dismissible fade show" role="alert"> {{ message }} <button
+                type="button" class="btn-close" data-bs-dismiss="alert" aria- label="Close"></button>; </div>;
+        {% endfor %}
+        {% endif %}
+        {% endwith %}
+    </div>
+</div>
+
+<!-- Bootstrap JS Opcional -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+    crossorigin="anonymous"> </script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-2xjAWviLddX9YMeAuUE60c3t+hckx2WgUz9o0Mi27Fr7X1s1ghcXFDx72yUIWQGs"
+    crossorigin="anonymous"></script> <!-- Script JS opcional para hacer desaparecer los mensajes
+    flash despues de 3 segundos -->
+<script> // static/js/flash.js
+    document.addEventListener('DOMContentLoaded', function () {
+        setTimeout(function () {
+            let alerts = document.querySelectorAll('.alert')
+            alerts.forEach(function (alert) {
+                alert.style.opacity = '0';
+                setTimeout(function () { alert.remove() }, 3000)
+            })
+        }, 3000)
+    })
+</script>
+
+</html>

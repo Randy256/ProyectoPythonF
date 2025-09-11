@@ -14,9 +14,22 @@ app.config['MYSQL_DB'] = 'ventas'
 app.config['MYSQL_CURSORCLASS'] = 'DictCursor'
 mysql.init_app(app)
 
-@app.route('/')
-def inicio():
+@app.route('/', methods=['GET'])
+def index(): # Enviando mensajes flash de atipo success a la plantilla index.html
+    flash('Mensaje de prueba', 'success')
+    flash('Mensaje de Success con Flash', 'success')
+    flash('Mensaje de Info con Flash', 'info')
+    flash('Mensaje de Warning con Flash', 'warning')
+    flash('Mensaje de Error con Flash', 'error')
     return render_template('index.html')
+
+@app.route('/demo-flash', methods=['GET'])
+def demo_flash():
+    flash('Mensaje de Success con Flash', 'success')
+    flash('Mensaje de Info con Flash', 'info')
+    flash('Mensaje de Warning con Flash', 'warning')
+    flash('Mensaje de Error con Flash', 'error')
+    return redirect(url_for('index'))
 
 @app.route('/contacto', methods=['GET', 'POST'])
 def contacto():
@@ -134,4 +147,4 @@ def Registro():
     return render_template("Registro.html")
 
 if __name__ == '__main__':
-    app.run(debug=True, port=8000)
+    app.run(debug=True, port=5000)

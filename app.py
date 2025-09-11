@@ -15,9 +15,22 @@ app.config['MYSQL_DB'] = 'ventas'
 app.config['MYSQL_CURSORCLASS'] = 'DictCursor'
 mysql.init_app(app)
 
-@app.route('/')
-def index(): # Funcion para la ruta principal
+@app.route('/', methods=['GET'])
+def index(): # Enviando mensajes flash de atipo success a la plantilla index.html
+    flash('Mensaje de prueba', 'success')
+    flash('Mensaje de Success con Flash', 'success')
+    flash('Mensaje de Info con Flash', 'info')
+    flash('Mensaje de Warning con Flash', 'warning')
+    flash('Mensaje de Error con Flash', 'error')
     return render_template('index.html')
+
+@app.route('/demo-flash', methods=['GET'])
+def demo_flash():
+    flash('Mensaje de Success con Flash', 'success')
+    flash('Mensaje de Info con Flash', 'info')
+    flash('Mensaje de Warning con Flash', 'warning')
+    flash('Mensaje de Error con Flash', 'error')
+    return redirect(url_for('index'))
 
 @app.route('/contacto')
 def contacto(): # Funcion para la ruta de contacto
@@ -34,6 +47,10 @@ def about(): # Funcion para la ruta de acerca de
 @app.route('/login')
 def login(): # Funcion para la ruta de login
     return render_template('login.html')
+
+@app.route('/mensajes')
+def mensajes():
+    return render_template('mensajes.html')
 
 @app.route('/accesologin', methods=['GET', 'POST'])
 def accesologin():
@@ -79,4 +96,4 @@ def suma(num1, num2):
     return 'La suma de {} y {} es: {}'.format(num1,num2,resultado)
 
 if __name__ == '__main__':
-    app.run(debug=True, port=8000)  # Ejecucion la aplicacion en modo de depuracion
+    app.run(debug=True, port=5000)  # Ejecucion la aplicacion en modo de depuracion
