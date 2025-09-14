@@ -14,14 +14,10 @@ app.config['MYSQL_DB'] = 'ventas'
 app.config['MYSQL_CURSORCLASS'] = 'DictCursor'
 mysql.init_app(app)
 
-@app.route('/', methods=['GET'])
-def index(): # Enviando mensajes flash de atipo success a la plantilla index.html
-    flash('Mensaje de prueba', 'success')
-    flash('Mensaje de Success con Flash', 'success')
-    flash('Mensaje de Info con Flash', 'info')
-    flash('Mensaje de Warning con Flash', 'warning')
-    flash('Mensaje de Error con Flash', 'error')
+@app.route('/') # Decorador para la ruta principal
+def index(): # Funcion para la ruta principal
     return render_template('index.html')
+
 
 @app.route('/demo-flash', methods=['GET'])
 def demo_flash():
@@ -102,6 +98,7 @@ def usuario():
 def login():
     return render_template('login.html')
 
+# ...existing code...
 @app.route('/accesologin', methods=['GET', 'POST'])
 def accesologin():
     if request.method == 'POST' and 'email' in request.form and 'password' in request.form:
@@ -123,6 +120,12 @@ def accesologin():
             else:
                 flash('Rol de usuario no reconocido.', 'danger')
                 return render_template('login.html', error='Credenciales incorrectas')
+        else:
+            flash('Credenciales incorrectas.', 'danger')
+            return render_template('login.html', error='Credenciales incorrectas')
+    # Si la petición no es POST o faltan datos, mostrar login
+    return render_template('login.html')
+# ...existing code...
 
 @app.route('/logout')
 def logout():
