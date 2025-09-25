@@ -76,6 +76,33 @@ def accesologin():
     return render_template('login.html')
 # ...existing code...
 
+# ...existing code...
+@app.route('/productos/agregar')
+def listar_productos_agregados():
+    # Aquí puedes poner la lógica que necesites
+    return render_template('agregar_producto.html')
+# ...existing code...
+
+# ...existing code...
+@app.route('/productos/listar')
+def listar_productos():
+    # Aquí puedes poner la lógica que necesites
+    return render_template('listar_productos.html')
+# ...existing code...
+
+# ...existing code...
+@app.route('/perfil')
+def listar():
+    # Aquí puedes poner la lógica que necesites
+    return render_template('perfil.html')
+# ...existing code...
+
+@app.route('/logout')
+def logout():
+    session.clear()
+    flash('Has cerrado sesión.', 'success')
+    return redirect(url_for('index'))
+
 @app.route('/registros')
 def registros(): # Funcion para la ruta de registros
     return render_template('registros.html')
@@ -83,6 +110,10 @@ def registros(): # Funcion para la ruta de registros
 @app.route('/productos')
 def productos(): # Funcion para la ruta de productos
     return render_template('productos.html')
+
+@app.route('/admin')
+def admin():
+    return render_template('admin.html')
 
 @app.route('/servicios/<nombre>')
 def servicios(nombre): # Funcion para la ruta de servicios

@@ -148,6 +148,7 @@ def Registro():
         return redirect(url_for('inicio'))
 
     return render_template("Registro.html")
+    
 
 if __name__ == '__main__':
     app.run(debug=True, port=5000)
