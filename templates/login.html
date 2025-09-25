@@ -3,22 +3,6 @@
 
 {% block body %}
 
-<!--MENSAJE DE ALERTA FLASH-->
-<!--Mostrar mensajes flash-->
-{% with msg = get_flashed_messages(with_categories=True) %}
-<!--Validando si hay mensajes flash-->
-{% if msg %}
-<!--Recorrer los mensajes flash, mas la categoria al cual pertenece-->
-{% for category, message in msg %}
-<div class="alert alert-{{ category }}" role="alert-dismissible fade show" role="alert">
-   <strong>{{ message }}</strong>
-   <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-</div>
-{% endfor %}
-{% endif %}
-{% endwith %}
-
-
 <!-- Contenedor principal centrado en pantalla -->
 <div style="min-height: 100vh; display: flex; align-items: center; justify-content: center;">
    <div class="card shadow-lg p-4" style="width: 600px; border-radius: 20px; background-color: #1381d0;">
@@ -114,11 +98,6 @@
             <div class="text-center mt-3">
                <a href="#">¿Olvidaste tu contraseña?</a>
             </div>
-            {% if error %}
-            <div class="alert alert-danger" role="alert">
-               {{ error }}
-            </div>
-            {% endif %}
          </div>
       </div>
    </div>

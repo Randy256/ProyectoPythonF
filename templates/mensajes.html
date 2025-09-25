@@ -101,3 +101,18 @@
 </script>
 
 </html>
+
+<!--MENSAJE DE ALERTA FLASH-->
+<!--Mostrar mensajes flash-->
+{% with msg = get_flashed_messages(with_categories=True) %}
+<!--Validando si hay mensajes flash-->
+{% if msg %}
+<!--Recorrer los mensajes flash, mas la categoria al cual pertenece-->
+{% for category, message in msg %}
+<div class="alert alert-{{ category }}" role="alert-dismissible fade show" role="alert">
+    <strong>{{ message }}</strong>
+    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+</div>
+{% endfor %}
+{% endif %}
+{% endwith %}

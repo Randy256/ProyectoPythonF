@@ -35,6 +35,20 @@ def contacto(): # Funcion para la ruta de contacto
 def usuario():
     return render_template('usuario.html')
 
+usuarios = []
+
+@app.route('/perfil', methods=['GET'])
+def perfil():
+    return render_template('perfil.html', usuarios=usuarios)
+
+@app.route('/agregar_usuario', methods=['POST'])
+def agregar_usuario():
+    nombre = request.form.get('nombre_usuario')
+    if nombre:
+        usuarios.append(nombre)
+    return redirect(url_for('perfil'))
+
+
 @app.route('/acercade')
 def about(): # Funcion para la ruta de acerca de
     return render_template('acercade.html')
@@ -47,7 +61,6 @@ def login(): # Funcion para la ruta de login
 def mensajes():
     return render_template('mensajes.html')
 
-# ...existing code...
 @app.route('/accesologin', methods=['GET', 'POST'])
 def accesologin():
     if request.method == 'POST' and 'email' in request.form and 'password' in request.form:
@@ -65,16 +78,16 @@ def accesologin():
                 flash('¡Has iniciado sesión como administrador!', 'success')
                 return render_template('admin.html', user=user)
             elif user['id_rol'] == 2:
-                return render_template('index.html')
+                flash('¡Has iniciado sesión como usuario!', 'success')
+                return render_template('usuario.html', user=user)
             else:
                 flash('Rol de usuario no reconocido.', 'danger')
-                return render_template('login.html', error='Credenciales incorrectas')
+                return render_template('login.html')
         else:
             flash('Credenciales incorrectas.', 'danger')
-            return render_template('login.html', error='Credenciales incorrectas')
+            return render_template('login.html')
     # Si la petición no es POST o faltan datos, mostrar login
     return render_template('login.html')
-# ...existing code...
 
 # ...existing code...
 @app.route('/productos/agregar')

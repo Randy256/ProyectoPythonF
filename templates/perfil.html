@@ -2,5 +2,51 @@
 {% block title %} PERFIL {% endblock %}
 
 {% block body %}
-<h1>Esta es la pagina de perfil</h1>
+<h1 style="margin-bottom: 30px;">Esta es la pagina de perfil</h1>
+
+<!-- Formulario para agregar usuario -->
+<form method="POST" action="{{ url_for('agregar_usuario') }}" style="margin-bottom: 30px;">
+    <label for="nombre_usuario">Nombre:</label>
+    <input type="text" id="nombre_usuario" name="nombre_usuario" required>
+    <label for="correo_usuario" style="margin-left:10px;">Correo:</label>
+    <input type="email" id="correo_usuario" name="correo_usuario" required>
+    <label for="password_usuario" style="margin-left:10px;">Password:</label>
+    <input type="text" id="password_usuario" name="password_usuario" required>
+    <button type="submit" style="margin-left:10px;">Agregar Usuario</button>
+</form>
+
+<h2 style="text-align:center;">Lista de Usuarios</h2>
+<table style="width:100%; border-collapse:collapse; background:#fff; box-shadow:0 2px 8px #eee;">
+    <thead>
+        <tr style="background:#23272b; color:#fff;">
+            <th style="padding:10px;">Nº</th>
+            <th style="padding:10px;">Nombre</th>
+            <th style="padding:10px;">Correo</th>
+            <th style="padding:10px;">Password</th>
+            <th style="padding:10px;">Acciones</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% if usuarios %}
+        {% for usuario in usuarios %}
+        <tr style="text-align:center;" {% if (loop.index0 % 2)==0 %} style="background:#f9f9f9;" {% endif %}>
+            <td>{{ loop.index }}</td>
+            <td>{{ usuario.nombre }}</td>
+            <td>{{ usuario.correo }}</td>
+            <td>{{ usuario.password }}</td>
+            <td>
+                <button
+                    style="background:#218838; color:#fff; border:none; padding:5px 15px; border-radius:5px; margin-right:5px;">Editar</button>
+                <button
+                    style="background:#dc3545; color:#fff; border:none; padding:5px 15px; border-radius:5px;">Eliminar</button>
+            </td>
+        </tr>
+        {% endfor %}
+        {% else %}
+        <tr>
+            <td colspan="5" style="text-align:center;">No hay usuarios registrados.</td>
+        </tr>
+        {% endif %}
+    </tbody>
+</table>
 {% endblock %}
