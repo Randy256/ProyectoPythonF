@@ -43,9 +43,11 @@ def perfil():
 
 @app.route('/agregar_usuario', methods=['POST'])
 def agregar_usuario():
-    nombre = request.form.get('nombre_usuario')
-    if nombre:
-        usuarios.append(nombre)
+    nombre = request.form.get('nombre')
+    correo = request.form.get('correo')
+    password = request.form.get('password')
+    if nombre and correo and password:
+        usuarios.append({'nombre': nombre, 'correo': correo, 'password': password})
     return redirect(url_for('perfil'))
 
 
