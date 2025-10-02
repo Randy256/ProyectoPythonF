@@ -37,9 +37,13 @@ def usuario():
 
 usuarios = []
 
-@app.route('/perfil', methods=['GET'])
-def perfil():
-    return render_template('perfil.html', usuarios=usuarios)
+@app.route('/listar')
+def listar():
+    cur = mysql.connection.cursor()
+    cur.execute("SELECT * FROM usuarios")
+    usuarios = cur.fetchall()
+    cur.close()
+    return render_template("listar.html", usuarios=usuarios)
 
 @app.route('/agregar_usuario', methods=['POST'])
 def agregar_usuario():
@@ -48,7 +52,32 @@ def agregar_usuario():
     password = request.form.get('password')
     if nombre and correo and password:
         usuarios.append({'nombre': nombre, 'correo': correo, 'password': password})
-    return redirect(url_for('perfil'))
+    return redirect(url_for('listar'))
+
+@app.route('/updateUsuario', methods=['POST'])
+def updateUsuario():
+    id = request.form['id']
+    nombre = request.form['nombre']
+    email = request.form['email']
+    password = request.form['password']
+    sql="UPDATE usuarios SET nombre=%s, email=%s, password=%s WHERE id=%s"
+    datos=(nombre, email, password, id)
+
+    conexion=mysql.connection
+    cursor=conexion.cursor()
+    cursor.execute(sql, datos)
+    conexion.commit()
+    flash('Se actualizo Satisfactoriamente', 'success')
+    return redirect(url_for('listar'))
+
+#-------- eliminar usuario -------------
+@app.route('/borrarUser/<int:id>', methods=['GET'])
+def borrarUser(id):
+    flash('Sea borrado permanentemente', 'question')
+    cur = mysql.connection.cursor()
+    cur.execute("DELETE FROM usuarios WHERE id=%s", (id,))
+    mysql.connection.commit()
+    return redirect(url_for('listar'))
 
 
 @app.route('/acercade')
@@ -103,13 +132,6 @@ def listar_productos_agregados():
 def listar_productos():
     # Aquí puedes poner la lógica que necesites
     return render_template('listar_productos.html')
-# ...existing code...
-
-# ...existing code...
-@app.route('/perfil')
-def listar():
-    # Aquí puedes poner la lógica que necesites
-    return render_template('perfil.html')
 # ...existing code...
 
 @app.route('/logout')
