@@ -4,6 +4,7 @@ from flask_mysqldb import MySQL
 app=Flask(__name__)
 app.secret_key = 'mysql' #Clave secreta para sesiones
 mysql = MySQL() #Inicializar la ext MySQL
+session = {}
 
 # conexion de la base de datos
 app.config['MYSQL_HOST'] = 'localhost'

@@ -13,7 +13,7 @@
                     <img src="{{ url_for('static', filename='img/Login2.png') }}" alt="Logo" style="width:120px;">
                     <h1 style="font-size: 1.2rem; margin-top: 12px;">¡Bienvenido!</h1>
                     <p style="margin-top: 8px;">Ingresar información de registro</p>
-                    <!-- Botón para ir a la pantalla de registros -->
+                    <!-- Botón para ir a la pantalla de login -->
                     <a href="{{ url_for('login') }}" class="btn btn-success mt-2 w-100"
                         style="background: linear-gradient(90deg, #121959,#172179,#384194)">Iniciar Sesión</a>
                 </div>
@@ -21,80 +21,84 @@
             <!-- Formulario de Login -->
             <div class="card shadow p-3" style="border-radius: 15px; margin-left: 24px; flex: 1;">
                 <h3 class="text-center mb-3">Registrese</h3>
-                <form>
+                <form action="{{ url_for('agregar_usuario') }}" method="POST">
                     <!-- Usuario -->
                     <div class="mb-3">
                         <label for="username" class="form-label">Nombre Completo</label>
-                        <input type="text" class="form-control" id="nombre" placeholder="Tu Nombre" required>
-                        <div class="mb-3">
-                            <label for="email" class="form-label">Correo electrónico</label>
-                            <input type="email" class="form-control" id="email" placeholder="ejemplo@correo.com"
-                                required>
+                        <input type="text" class="form-control" id="nombre" name="nombre" placeholder="Tu Nombre"
+                            required>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="email" class="form-label">Correo electrónico</label>
+                        <input type="email" class="form-control" id="email" name="email"
+                            placeholder="ejemplo@correo.com" required>
+                    </div>
+
+                    <!-- Contraseña -->
+                    <div class="mb-3">
+                        <label for="password" class="form-label">Contraseña</label>
+                        <div style="position: relative;">
+                            <input type="password" class="form-control" id="password" name="password"
+                                placeholder="********" required>
+                            <button type="button" onclick="togglePassword()" tabindex="-1"
+                                style="position: absolute; right: 10px; top: 50%; transform: translateY(-50%); border: none; background: none; padding: 0;">
+                                <span id="toggleIcon">
+                                    <!-- Ojo abierto SVG -->
+                                    <svg id="eyeOpen" width="22" height="22" fill="currentColor" viewBox="0 0 16 16">
+                                        <path
+                                            d="M16 8s-3-5.5-8-5.5S0 8 0 8s3 5.5 8 5.5S16 8 16 8zM1.173 8a13.133 13.133 0 0 1 1.66-2.043C4.12 4.668
+                                            5.88 3.5 8 3.5c2.12 0 3.879 1.168 5.168 2.457A13.133 13.133 0 0 1 14.828 8c-.058.087-.122.183-.195.288-.335.48-.83
+                                            1.12-1.465 1.755C11.88 11.332 10.12 12.5 8 12.5c-2.12 0-3.879-1.168-5.168-2.457A13.133 13.133 0 0 1 1.172 8z" />
+                                        <path
+                                            d="M8 5.5a2.5 2.5 0 1 0 0 5 2.5 2.5 0 0 0 0-5zm0 1a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3z" />
+                                    </svg>
+                                    <!-- Ojo cerrado SVG (oculto por defecto) -->
+                                    <svg id="eyeClosed" width="22" height="22" fill="currentColor" viewBox="0 0 16 16"
+                                        style="display:none;">
+                                        <path d="M13.359 11.238C12.06 12.322 10.19 13.5 8 13.5c-2.12 0-3.879-1.168-5.168-2.457A13.133 13.133 0 0 1 1.172 8a13.133 13.133
+                                        0 0 1 1.66-2.043c.23-.23.47-.447.719-.65l-.708-.708a.5.5 0 1 1 .708-.708l12 12a.5.5 0 0 1-.708.708l-1.484-1.484zm-1.414-1.414l
+                                        -1.06-1.06A2.5 2.5 0 0 1 8 10.5a2.5 2.5 0 0 1-2.5-2.5c0-.538.17-1.036.46-1.44l-1.06-1.06A4.5 4.5 0 0 0 3.5 8c0 .87.252 1.68.684
+                                        2.324C5.12 11.332 6.88 12.5 8 12.5c1.12 0 2.88-1.168 4.168-2.457A13.133 13.133 0 0 0 14.828 8c-.058-.087-.122-.183-.195-.288-.335-.
+                                        48-.83-1.12-1.465-1.755-.23-.23-.47-.447-.719-.65l-.708.708c.249.203.489.42.719.65A13.133 13.133 0 0 1 14.828 8c-.058.087-.122.183-.
+                                        195.288-.335.48-.83 1.12-1.465 1.755z" />
+                                    </svg>
+                                </span>
+                            </button>
                         </div>
-                        <!-- Contraseña -->
-                        <div class="mb-3">
-                            <label for="password" class="form-label">Contraseña</label>
-                            <div style="position: relative;">
-                                <input type="password" class="form-control" id="password" name="password"
-                                    placeholder="********" required>
-                                <button type="button" onclick="togglePassword()" tabindex="-1"
-                                    style="position: absolute; right: 10px; top: 50%; transform: translateY(-50%); border: none; background: none; padding: 0;">
-                                    <span id="toggleIcon">
-                                        <!-- Ojo abierto SVG -->
-                                        <svg id="eyeOpen" width="22" height="22" fill="currentColor"
-                                            viewBox="0 0 16 16">
-                                            <path
-                                                d="M16 8s-3-5.5-8-5.5S0 8 0 8s3 5.5 8 5.5S16 8 16 8zM1.173 8a13.133 13.133 0 0 1 1.66-2.043C4.12 4.668
-                                                5.88 3.5 8 3.5c2.12 0 3.879 1.168 5.168 2.457A13.133 13.133 0 0 1 14.828 8c-.058.087-.122.183-.195.288-.335.48-.83
-                                                1.12-1.465 1.755C11.88 11.332 10.12 12.5 8 12.5c-2.12 0-3.879-1.168-5.168-2.457A13.133 13.133 0 0 1 1.172 8z" />
-                                            <path
-                                                d="M8 5.5a2.5 2.5 0 1 0 0 5 2.5 2.5 0 0 0 0-5zm0 1a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3z" />
-                                        </svg>
-                                        <!-- Ojo cerrado SVG (oculto por defecto) -->
-                                        <svg id="eyeClosed" width="22" height="22" fill="currentColor"
-                                            viewBox="0 0 16 16" style="display:none;">
-                                            <path d="M13.359 11.238C12.06 12.322 10.19 13.5 8 13.5c-2.12 0-3.879-1.168-5.168-2.457A13.133 13.133 0 0 1 1.172 8a13.133 13.133
-                                            0 0 1 1.66-2.043c.23-.23.47-.447.719-.65l-.708-.708a.5.5 0 1 1 .708-.708l12 12a.5.5 0 0 1-.708.708l-1.484-1.484zm-1.414-1.414l
-                                            -1.06-1.06A2.5 2.5 0 0 1 8 10.5a2.5 2.5 0 0 1-2.5-2.5c0-.538.17-1.036.46-1.44l-1.06-1.06A4.5 4.5 0 0 0 3.5 8c0 .87.252 1.68.684
-                                            2.324C5.12 11.332 6.88 12.5 8 12.5c1.12 0 2.88-1.168 4.168-2.457A13.133 13.133 0 0 0 14.828 8c-.058-.087-.122-.183-.195-.288-.335-.
-                                            48-.83-1.12-1.465-1.755-.23-.23-.47-.447-.719-.65l-.708.708c.249.203.489.42.719.65A13.133 13.133 0 0 1 14.828 8c-.058.087-.122.183-.
-                                            195.288-.335.48-.83 1.12-1.465 1.755z" />
-                                        </svg>
-                                    </span>
-                                </button>
-                            </div>
-                        </div>
-                        <!-- ...existing code... -->
-                        <script>
-                            function togglePassword() {
-                                const passwordInput = document.getElementById('password');
-                                const eyeOpen = document.getElementById('eyeOpen');
-                                const eyeClosed = document.getElementById('eyeClosed');
-                                if (passwordInput.type === 'password') {
-                                    passwordInput.type = 'text';
-                                    eyeOpen.style.display = 'none';
-                                    eyeClosed.style.display = '';
-                                } else {
-                                    passwordInput.type = 'password';
-                                    eyeOpen.style.display = '';
-                                    eyeClosed.style.display = 'none';
-                                }
+                    </div>
+
+                    <script>
+                        function togglePassword() {
+                            const passwordInput = document.getElementById('password');
+                            const eyeOpen = document.getElementById('eyeOpen');
+                            const eyeClosed = document.getElementById('eyeClosed');
+                            if (passwordInput.type === 'password') {
+                                passwordInput.type = 'text';
+                                eyeOpen.style.display = 'none';
+                                eyeClosed.style.display = '';
+                            } else {
+                                passwordInput.type = 'password';
+                                eyeOpen.style.display = '';
+                                eyeClosed.style.display = 'none';
                             }
-                        </script>
-                        <!-- Checkbox -->
-                        <div class="mb-3 form-check">
-                            <input type="checkbox" class="form-check-input" id="remember">
-                            <label class="form-check-label" for="remember">Recordarme</label>
-                        </div>
-                        <!-- Botón -->
-                        <button type="submit" class="btn btn-primary w-100"
-                            style="background: linear-gradient(90deg, #121959,#172179,#384194)">Registrarse</button>
-                        <!-- Botón Google -->
-                        <a href="" class="btn btn-light w-100 mt-2" style="border: 1px solid #ccc;">
-                            <img src="{{ url_for('static', filename='img/Google.png') }}" alt="Google"
-                                style="width:20px; margin-right:8px; vertical-align:middle;">
-                            Iniciar Sesión con Google
-                        </a>
+                        }
+                    </script>
+
+                    <!-- Checkbox -->
+                    <div class="mb-3 form-check">
+                        <input type="checkbox" class="form-check-input" id="remember">
+                        <label class="form-check-label" for="remember">Recordarme</label>
+                    </div>
+                    <!-- Botón -->
+                    <button type="submit" class="btn btn-primary w-100"
+                        style="background: linear-gradient(90deg, #121959,#172179,#384194)">Registrarse</button>
+                    <!-- Botón Google -->
+                    <a href="" class="btn btn-light w-100 mt-2" style="border: 1px solid #ccc;">
+                        <img src="{{ url_for('static', filename='img/Google.png') }}" alt="Google"
+                            style="width:20px; margin-right:8px; vertical-align:middle;">
+                        Iniciar Sesión con Google
+                    </a>
                 </form>
                 <!-- Link adicional -->
                 <div class="text-center mt-3">

@@ -1,0 +1,48 @@
+{% extends 'base.html' %}
+{% block title %} CARRITO {% endblock %}
+
+{% block body %}
+
+<div class="container mt-5">
+    <h1 class="text-center mb-4">Carrito de Compras</h1>
+    <p class="text-center">Aquí puedes ver los productos que has añadido a tu carrito.</p>
+    <!-- Aquí puedes agregar más contenido relacionado con el carrito -->
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card">
+                <div class="card-header bg-primary text-white text-center">
+                    <h2 class="mb-0">Productos en el Carrito</h2>
+                </div>
+                <div class="card-body">
+                    <p>Información sobre los productos en tu carrito.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row justify-content-center mt-4">
+        <div class="col-md-8">
+            <div class="card">
+                <div class="card-header bg-success text-white text-center">
+                    <h2 class="mb-0">Checkout</h2>
+                </div>
+                <div class="card-body">
+                    <p>Proceso de compra y pago.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row justify-content-center mt-4">
+        <div class="col-md-8">
+            <div class="card">
+                <div class="card-header bg-info text-white text-center">
+                    <h2 class="mb-0">Contacto</h2>
+                </div>
+                <div class="card-body">
+                    <p>Información de contacto para consultas sobre el carrito.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

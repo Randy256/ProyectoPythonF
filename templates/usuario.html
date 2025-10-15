@@ -1,6 +1,16 @@
 {% extends 'base.html' %}
-{% block title %} USUARIOS {% endblock %}
+{% block title %} USUARIOS - Biblioteca de Útiles Escolares {% endblock %}
 
 {% block body %}
-<h1>Esta es la pagina de usuarios</h1>
+<div class="container m-5">
+    <h1 class="text-center">Página de Usuarios</h1>
+    <p class="text-center">Bienvenido a la página de usuarios de nuestra biblioteca de útiles escolares.</p>
+    <p class="text-center">En esta sección puedes gestionar tus datos de usuario, realizar pedidos de útiles escolares y
+        más.</p>
+    <hr>
+    <!-- Aquí puedes agregar el contenido específico de la página de usuarios -->
+    {% block usuario_content %}
+
+    {% endblock %}
+</div>
 {% endblock %}
