@@ -2,8 +2,8 @@ from flask import Flask, render_template, url_for, request, redirect, flash, ses
 from flask_mysqldb import MySQL 
 
 mysql = MySQL()
-app=Flask(__name__)
-app.secret_key = 'mysql' #Clave secreta para sesiones
+app = Flask(__name__)
+app.secret_key = 'mysql'  # Clave secreta para sesiones
 
 
 # conexion de la base de datos
@@ -33,35 +33,49 @@ def contacto(): # Funcion para la ruta de contacto
 
 @app.route('/usuario')
 def usuario():
-    return render_template('usuario.html')
+    user = session.get('user')  # tomar datos del usuario en sesión si existen
+    return render_template('usuario.html', user=user)
 
-usuarios = []
-
-# ...existing code...
-
-usuarios = []  # Lista en memoria
 
 @app.route('/listar')
 def listar():
-    # Mostrar usuarios de la lista en memoria, no de la base de datos
+    cursor = mysql.connection.cursor()
+    cursor.execute('SELECT id, nombre, email, password FROM usuarios')
+    usuarios = cursor.fetchall()
+    cursor.close()
     return render_template("listar.html", usuarios=usuarios)
 
 @app.route('/agregar_usuario', methods=['POST'])
 def agregar_usuario():
+    # Obtener el valor del campo oculto. Si no existe (registro público), será None.
+    origen = request.form.get('origen_formulario') # NUEVA LÍNEA
     nombre = request.form.get('nombre')
     email = request.form.get('email')
     password = request.form.get('password')
     if nombre and email and password:
-        # Generar un ID simple para el usuario
-        new_id = len(usuarios) + 1
-        usuarios.append({'id': new_id, 'nombre': nombre, 'email': email, 'password': password})
-        flash('Usuario agregado en memoria.', 'success')
-        # Redirigir a la página de usuario después del registro
-        return redirect(url_for('usuario'))
+        cursor = mysql.connection.cursor()
+        # insertar con id_rol = 2 (usuario)
+        cursor.execute(
+            'INSERT INTO usuarios (nombre, email, password, id_rol) VALUES (%s, %s, %s, %s)',
+            (nombre, email, password, 2)
+        )
+        mysql.connection.commit()
+        last_id = cursor.lastrowid
+        cursor.close()
+        # guardar en session y marcar rol
+        session['user'] = {'id': last_id, 'nombre': nombre, 'email': email, 'id_rol': 2}
+        session['id_rol'] = 2
+        flash('Usuario agregado correctamente.', 'success')
+
+        if origen == 'admin_list':
+            # Si viene de listar.html, redirigir a la misma lista (listar.html)
+            return redirect(url_for('listar'))
+        else:
+            # Si viene de registros.html (registro público), redirigir al panel de usuario (usuario.html)
+            return redirect(url_for('usuario'))
     else:
         flash('Faltan datos.', 'danger')
         return redirect(url_for('registros'))
-## ...existing code...
 
 @app.route('/updateUsuario', methods=['POST'])
 def updateUsuario():
@@ -69,24 +83,23 @@ def updateUsuario():
     nombre = request.form['nombre']
     email = request.form['email']
     password = request.form['password']
-    # Buscar y actualizar el usuario en la lista en memoria
-    for usuario in usuarios:
-        if usuario['id'] == id:
-            usuario['nombre'] = nombre
-            usuario['email'] = email
-            usuario['password'] = password
-            flash('Usuario actualizado en memoria.', 'success')
-            break
-    else:
-        flash('Usuario no encontrado.', 'danger')
+    cursor = mysql.connection.cursor()
+    cursor.execute(
+        'UPDATE usuarios SET nombre = %s, email = %s, password = %s WHERE id = %s',
+        (nombre, email, password, id)
+    )
+    mysql.connection.commit()
+    cursor.close()
+    flash('Usuario actualizado correctamente.', 'success')
     return redirect(url_for('listar'))
 
 @app.route('/borrarUser/<int:id>', methods=['GET'])
 def borrarUser(id):
-    global usuarios
-    # Eliminar el usuario de la lista en memoria
-    usuarios = [u for u in usuarios if u['id'] != id]
-    flash('Usuario eliminado en memoria.', 'success')
+    cursor = mysql.connection.cursor()
+    cursor.execute('DELETE FROM usuarios WHERE id = %s', (id,))
+    mysql.connection.commit()
+    cursor.close()
+    flash('Usuario eliminado correctamente.', 'success')
     return redirect(url_for('listar'))
 
 # ...existing code...
@@ -139,74 +152,89 @@ def accesologin():
     # Si la petición no es POST o faltan datos, mostrar login
     return render_template('login.html')
 
-# ...existing code...
-@app.route('/productos/agregar')
-def listar_productos_agregados():
-    # Aquí puedes poner la lógica que necesites
-    productos = session.get('productos', [])
-    return render_template('agregar_producto.html', productos=productos)
-# ...existing code...
-
+# -----------------------------------------------------------
+# AGREGAR PRODUCTO Y MOSTRAR LISTA (EN LA MISMA PÁGINA)
+# -----------------------------------------------------------
 @app.route('/productos/agregar', methods=['GET', 'POST'])
 def agregarProducto():
-    if request.method == 'POST':
-        productos = session.get('productos', [])
-        nuevo = {
-            'id': len(productos) + 1,
-            'nombre': request.form['nombre'],
-            'precio': request.form['precio'],
-            'cantidad': request.form['cantidad'],
-            'descripcion': request.form['descripcion']
-        }
-        productos.append(nuevo)
-        session['productos'] = productos
-        session.modified = True  # para que Flask guarde los cambios
-        return redirect(url_for('agregarProducto'))
+    cursor = mysql.connection.cursor()
 
-    # Si es GET, solo muestra la página con los productos actuales
-    productos = session.get('productos', [])
+    if request.method == 'POST':
+        nombre = request.form['nombre']
+        precio = request.form['precio']
+        cantidad = request.form['cantidad']
+        descripcion = request.form['descripcion']
+
+        # Insertar el nuevo producto en la base de datos
+        cursor.execute(
+            "INSERT INTO productos (nombre, precio, cantidad, descripcion) VALUES (%s, %s, %s, %s)",
+            (nombre, precio, cantidad, descripcion)
+        )
+        mysql.connection.commit()
+        flash('Producto agregado correctamente.', 'success')
+
+    # Obtener la lista actualizada de productos
+    cursor.execute("SELECT * FROM productos ORDER BY id DESC")
+    productos = cursor.fetchall()
+    cursor.close()
+
+    # Mostrar la página con el formulario y la tabla de productos
     return render_template('agregar_producto.html', productos=productos)
 
 
-# ...existing code...
+# -----------------------------------------------------------
+# LISTAR PRODUCTOS DESDE MYSQL
+# -----------------------------------------------------------
 @app.route('/productos/listar')
 def listar_productos():
-    productos = session.get('productos', [])
+    cursor = mysql.connection.cursor()
+    cursor.execute("SELECT * FROM productos")
+    productos = cursor.fetchall()
+    cursor.close()
     return render_template('listar_productos.html', productos=productos)
+
 
 # -----------------------------------------------------------
 # EDITAR PRODUCTO
 # -----------------------------------------------------------
 @app.route('/productos/editar/<int:id>', methods=['GET', 'POST'])
 def editar_producto(id):
-    productos = session.get('productos', [])
-    producto = next((p for p in productos if p['id'] == id), None)
-
-    if not producto:
-        flash('Producto no encontrado.', 'danger')
-        return redirect(url_for('listar_productos'))
+    cursor = mysql.connection.cursor()
 
     if request.method == 'POST':
-        producto['nombre'] = request.form['nombre']
-        producto['precio'] = request.form['precio']
-        producto['descripcion'] = request.form['descripcion']
-        session['productos'] = productos
-        session.modified = True
+        nombre = request.form['nombre']
+        precio = request.form['precio']
+        cantidad = request.form['cantidad']
+        descripcion = request.form['descripcion']
+
+        cursor.execute("""
+            UPDATE productos 
+            SET nombre = %s, precio = %s, cantidad = %s, descripcion = %s 
+            WHERE id = %s
+        """, (nombre, precio, cantidad, descripcion, id))
+        mysql.connection.commit()
+        cursor.close()
+
         flash('Producto actualizado correctamente.', 'success')
         return redirect(url_for('listar_productos'))
+
+    cursor.execute("SELECT * FROM productos WHERE id = %s", (id,))
+    producto = cursor.fetchone()
+    cursor.close()
 
     return render_template('editar_producto.html', producto=producto)
 
 
 # -----------------------------------------------------------
-# BORRAR PRODUCTO
+# ELIMINAR PRODUCTO
 # -----------------------------------------------------------
 @app.route('/productos/borrar/<int:id>')
 def borrar_producto(id):
-    productos = session.get('productos', [])
-    nuevos = [p for p in productos if p['id'] != id]
-    session['productos'] = nuevos
-    session.modified = True
+    cursor = mysql.connection.cursor()
+    cursor.execute("DELETE FROM productos WHERE id = %s", (id,))
+    mysql.connection.commit()
+    cursor.close()
+
     flash('Producto eliminado correctamente.', 'success')
     return redirect(url_for('listar_productos'))
 

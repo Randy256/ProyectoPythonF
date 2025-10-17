@@ -66,6 +66,7 @@
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
                         <form action="{{ url_for('agregar_usuario') }}" method="POST">
+                            <input type="hidden" name="origen_formulario" value="admin_list">
                             <div class="modal-body">
                                 <div class="form-group mb-2">
                                     <input type="text" class="form-control" name="nombre" id="name"
