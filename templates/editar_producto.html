@@ -15,23 +15,36 @@
                         value="{{ producto.nombre }}" required>
                 </div>
                 <div class="mb-3">
+                    <label for="marca" class="form-label">Marca</label>
+                    <input type="text" class="form-control border-success" id="marca" name="marca"
+                        value="{{ producto.marca }}" required>
+                </div>
+                <div class="mb-3">
                     <label for="precio" class="form-label">Precio</label>
                     <input type="number" step="0.01" class="form-control border-success" id="precio" name="precio"
                         value="{{ producto.precio }}" required>
+                </div>
+                <div class="mb-3">
+                    <label for="cantidad" class="form-label">Cantidad</label>
+                    <input type="number" step="1" class="form-control border-success" id="cantidad" name="cantidad"
+                        value="{{ producto.cantidad }}" required>
+                </div>
+                <div class="mb-3">
+                    <label for="caducidad" class="form-label">Fecha de Caducidad</label>
+                    <input type="date" class="form-control border-success" id="caducidad" name="caducidad"
+                        value="{{ producto.caducidad if producto.caducidad else '' }}">
+                    <small class="form-text text-muted">Dejar vacío si el producto no tiene fecha de caducidad.</small>
                 </div>
                 <div class="mb-3">
                     <label for="descripcion" class="form-label">Descripción</label>
                     <textarea class="form-control border-success" id="descripcion" name="descripcion" rows="3"
                         required>{{ producto.descripcion }}</textarea>
                 </div>
-                <div class="mb-3">
-                    <label for="cantidad" class="form-label">Cantidad</label>
-                    <input type="number" step="1" class="form-control border-success" id="cantidad" name="cantidad"
-                        value="{{ producto.cantidad }}" required>
-                    <div class="text-center">
-                        <button type="submit" class="btn btn-outline-success">Guardar Cambios</button>
-                        <a href="{{ url_for('listar_productos') }}" class="btn btn-outline-secondary">Cancelar</a>
-                    </div>
+
+                <div class="text-center">
+                    <button type="submit" class="btn btn-outline-success">Guardar Cambios</button>
+                    <a href="{{ url_for('listar_productos') }}" class="btn btn-outline-secondary">Cancelar</a>
+                </div>
             </form>
         </div>
     </div>

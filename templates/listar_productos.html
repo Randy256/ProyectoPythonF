@@ -62,8 +62,10 @@
                             <tr>
                                 <th>ID</th>
                                 <th>Nombre</th>
+                                <th>Marca</th>
                                 <th>Precio</th>
                                 <th>Cantidad</th>
+                                <th>Fecha de Caducidad</th>
                                 <th>Descripción</th>
                                 <th>Acciones</th>
                             </tr>
@@ -73,8 +75,10 @@
                             <tr>
                                 <td>{{ producto.id }}</td>
                                 <td>{{ producto.nombre }}</td>
+                                <td>{{ producto.marca }}</td>
                                 <td>{{ producto.precio }}</td>
                                 <td>{{ producto.cantidad }}</td>
+                                <td>{{ producto.caducidad if producto.caducidad else "Producto sin caducidad" }}</td>
                                 <td>{{ producto.descripcion }}</td>
                                 <td>
                                     <a href="{{ url_for('editar_producto', id=producto.id) }}"
@@ -143,14 +147,14 @@
                     title: 'Lista de Productos',
                     orientation: 'portrait',
                     pageSize: 'A4',
-                    exportOptions: { columns: [0, 1, 2, 3, 4] }
+                    exportOptions: { columns: [0, 1, 2, 3, 4, 5, 6] }
                 },
                 {
                     extend: 'print',
                     text: '<i class="bi bi-printer me-1"></i> Imprimir',
                     className: 'btn btn-imprimir btn-sm',
                     title: 'Lista de Productos',
-                    exportOptions: { columns: [0, 1, 2, 3, 4] }
+                    exportOptions: { columns: [0, 1, 2, 3, 4, 5, 6] }
                 }
             ],
 

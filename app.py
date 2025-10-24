@@ -163,12 +163,17 @@ def agregarProducto():
         nombre = request.form['nombre']
         precio = request.form['precio']
         cantidad = request.form['cantidad']
+        marca = request.form['marca']
+        caducidad_str = request.form.get('caducidad')
         descripcion = request.form['descripcion']
+
+        # LÓGICA PARA MANEJAR CADUCIDAD: Si está vacío, se envía 'None' (que MySQL interpreta como NULL)
+        caducidad_db = caducidad_str if caducidad_str else None
 
         # Insertar el nuevo producto en la base de datos
         cursor.execute(
-            "INSERT INTO productos (nombre, precio, cantidad, descripcion) VALUES (%s, %s, %s, %s)",
-            (nombre, precio, cantidad, descripcion)
+            "INSERT INTO productos (nombre, precio, cantidad, marca, caducidad, descripcion) VALUES (%s, %s, %s, %s, %s, %s)",
+            (nombre, precio, cantidad, marca, caducidad_db, descripcion)
         )
         mysql.connection.commit()
         flash('Producto agregado correctamente.', 'success')
@@ -205,13 +210,18 @@ def editar_producto(id):
         nombre = request.form['nombre']
         precio = request.form['precio']
         cantidad = request.form['cantidad']
+        marca = request.form['marca']
+        caducidad_str = request.form.get('caducidad')
         descripcion = request.form['descripcion']
+
+        # LÓGICA PARA MANEJAR CADUCIDAD: Si está vacío, se envía 'None' (que MySQL interpreta como NULL)
+        caducidad_db = caducidad_str if caducidad_str else None
 
         cursor.execute("""
             UPDATE productos 
-            SET nombre = %s, precio = %s, cantidad = %s, descripcion = %s 
+            SET nombre = %s, precio = %s, cantidad = %s, marca = %s, caducidad = %s, descripcion = %s
             WHERE id = %s
-        """, (nombre, precio, cantidad, descripcion, id))
+        """, (nombre, precio, cantidad, marca, caducidad_db, descripcion, id))
         mysql.connection.commit()
         cursor.close()
 
