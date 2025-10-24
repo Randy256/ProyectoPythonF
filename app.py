@@ -112,6 +112,21 @@ def ventas(): # Funcion para la ruta de ventas
 def carrito(): # Funcion para la ruta de carrito
     return render_template('carrito.html')
 
+# -----------------------------------------------------------
+# RUTA CHECKOUT (PAGO)
+# -----------------------------------------------------------
+@app.route('/checkout')
+def checkout():
+    # En una aplicación real, esta función manejaría la lógica de pago
+    # como validar el carrito, procesar la transacción y registrar la venta.
+    
+    # Por ahora, solo renderizaremos una plantilla simple de confirmación
+    # o de formulario de pago.
+    
+    # NOTA: Debes crear un archivo llamado 'checkout.html' en la carpeta 'templates'
+    
+    return render_template('checkout.html')
+
 @app.route('/acercade')
 def about(): # Funcion para la ruta de acerca de
     return render_template('acercade.html')

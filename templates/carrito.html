@@ -4,41 +4,69 @@
 {% block body %}
 
 <div class="container mt-5">
-    <h1 class="text-center mb-4">Carrito de Compras</h1>
-    <p class="text-center">Aquí puedes ver los productos que has añadido a tu carrito.</p>
-    <!-- Aquí puedes agregar más contenido relacionado con el carrito -->
+    <h1 class="text-center mb-5 text-primary">🛒 Carrito de Compras</h1>
+
     <div class="row justify-content-center">
-        <div class="col-md-8">
-            <div class="card">
-                <div class="card-header bg-primary text-white text-center">
-                    <h2 class="mb-0">Productos en el Carrito</h2>
-                </div>
+        <div class="col-lg-10">
+            <div class="card shadow">
                 <div class="card-body">
-                    <p>Información sobre los productos en tu carrito.</p>
+                    <table class="table table-hover align-middle">
+                        <thead class="table-light">
+                            <tr>
+                                <th scope="col">#</th>
+                                <th scope="col">Producto</th>
+                                <th scope="col">Precio Unitario</th>
+                                <th scope="col">Cantidad</th>
+                                <th scope="col">Subtotal</th>
+                                <th scope="col">Acción</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <th scope="row">1</th>
+                                <td><img src="{{ url_for('static', filename='img/cuaderno.jpg') }}" style="width: 50px;"
+                                        class="img-thumbnail me-2" alt="Producto"> Cuaderno Universitario</td>
+                                <td>$2.50</td>
+                                <td>
+                                    <input type="number" class="form-control form-control-sm w-50" value="2" min="1"
+                                        onchange="actualizarCantidad(1, this.value)">
+                                </td>
+                                <td>$5.00</td>
+                                <td>
+                                    <button class="btn btn-sm btn-danger"><i class="fas fa-trash"></i></button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th scope="row">2</th>
+                                <td><img src="{{ url_for('static', filename='img/lapices.jpg') }}" style="width: 50px;"
+                                        class="img-thumbnail me-2" alt="Producto"> Set de 12 Lápices HB</td>
+                                <td>$1.80</td>
+                                <td>
+                                    <input type="number" class="form-control form-control-sm w-50" value="1" min="1"
+                                        onchange="actualizarCantidad(2, this.value)">
+                                </td>
+                                <td>$1.80</td>
+                                <td>
+                                    <button class="btn btn-sm btn-danger"><i class="fas fa-trash"></i></button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
                 </div>
             </div>
         </div>
     </div>
+
     <div class="row justify-content-center mt-4">
-        <div class="col-md-8">
-            <div class="card">
-                <div class="card-header bg-success text-white text-center">
-                    <h2 class="mb-0">Checkout</h2>
-                </div>
+        <div class="col-lg-10">
+            <div class="card bg-light shadow">
                 <div class="card-body">
-                    <p>Proceso de compra y pago.</p>
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="row justify-content-center mt-4">
-        <div class="col-md-8">
-            <div class="card">
-                <div class="card-header bg-info text-white text-center">
-                    <h2 class="mb-0">Contacto</h2>
-                </div>
-                <div class="card-body">
-                    <p>Información de contacto para consultas sobre el carrito.</p>
+                    <h3 class="card-title text-end">Total de la Compra: <span class="text-danger">$6.80</span></h3>
+                    <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                        <a href="{{ url_for('productos') }}" class="btn btn-secondary btn-lg me-md-2">Seguir
+                            Comprando</a>
+                        <a href="{{ url_for('checkout') }}" class="btn btn-success btn-lg">Proceder al Pago</a>
+                    </div>
                 </div>
             </div>
         </div>
