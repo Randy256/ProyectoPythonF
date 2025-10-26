@@ -40,7 +40,7 @@ def usuario():
 @app.route('/listar')
 def listar():
     cursor = mysql.connection.cursor()
-    cursor.execute('SELECT id, nombre, email, password FROM usuarios')
+    cursor.execute('SELECT id, nombre, email, password FROM usuarios WHERE id_rol != 1')  # Excluir administradores
     usuarios = cursor.fetchall()
     cursor.close()
     return render_template("listar.html", usuarios=usuarios)
