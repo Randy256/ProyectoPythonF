@@ -1,6 +1,8 @@
 from flask import Flask, render_template, url_for, request, redirect, flash, session
 from flask_mysqldb import MySQL 
 
+from passlib.hash import pbkdf2_sha256
+
 mysql = MySQL()
 app = Flask(__name__)
 app.secret_key = 'mysql'  # Clave secreta para sesiones
@@ -51,7 +53,7 @@ def agregar_usuario():
     origen = request.form.get('origen_formulario') # NUEVA LÍNEA
     nombre = request.form.get('nombre')
     email = request.form.get('email')
-    password = request.form.get('password')
+    password = pbkdf2_sha256.hash(request.form.get('password'))
     if nombre and email and password:
         cursor = mysql.connection.cursor()
         # insertar con id_rol = 2 (usuario)
@@ -82,12 +84,23 @@ def updateUsuario():
     id = int(request.form['id'])
     nombre = request.form['nombre']
     email = request.form['email']
-    password = request.form['password']
+    password = request.form.get('password', '').strip()
+
     cursor = mysql.connection.cursor()
-    cursor.execute(
-        'UPDATE usuarios SET nombre = %s, email = %s, password = %s WHERE id = %s',
-        (nombre, email, password, id)
-    )
+    if password:
+        # Hashear la nueva contraseña antes de guardar
+        hashed = pbkdf2_sha256.hash(password)
+        cursor.execute(
+            'UPDATE usuarios SET nombre = %s, email = %s, password = %s WHERE id = %s',
+            (nombre, email, hashed, id)
+        )
+    else:
+        # Si no se suministra contraseña, no la modificamos
+        cursor.execute(
+            'UPDATE usuarios SET nombre = %s, email = %s WHERE id = %s',
+            (nombre, email, id)
+        )
+
     mysql.connection.commit()
     cursor.close()
     flash('Usuario actualizado correctamente.', 'success')
@@ -146,25 +159,41 @@ def accesologin():
         password = request.form['password']
 
         cursor = mysql.connection.cursor()
-        cursor.execute('SELECT * FROM usuarios WHERE email = %s AND password = %s', (email, password))
+        cursor.execute('SELECT * FROM usuarios WHERE email = %s', (email,))
         user = cursor.fetchone()
         cursor.close()
 
         if user:
-            session['id_rol'] = user['id_rol']
-            if user['id_rol'] == 1:
-                flash('¡Has iniciado sesión como administrador!', 'success')
-                return render_template('admin.html', user=user)
-            elif user['id_rol'] == 2:
-                flash('¡Has iniciado sesión como usuario!', 'success')
-                return render_template('usuario.html', user=user)
-            else:
-                flash('Rol de usuario no reconocido.', 'danger')
-                return render_template('login.html')
-        else:
-            flash('Credenciales incorrectas.', 'danger')
-            return render_template('login.html')
-    # Si la petición no es POST o faltan datos, mostrar login
+            stored = user.get('password') or ''
+            try:
+                verified = pbkdf2_sha256.verify(password, stored)
+            except ValueError:
+                # El valor en BD no es un hash pbkdf2_sha256 (posible texto plano).
+                # Intentamos comparar con texto plano y, si coincide, migramos a hash.
+                if password == stored:
+                    verified = True
+                    # Re-hashear y actualizar en la base de datos para futuras verificaciones
+                    new_hash = pbkdf2_sha256.hash(password)
+                    cur_upd = mysql.connection.cursor()
+                    cur_upd.execute('UPDATE usuarios SET password = %s WHERE id = %s', (new_hash, user['id']))
+                    mysql.connection.commit()
+                    cur_upd.close()
+                else:
+                    verified = False
+
+            if verified:
+                session['id_rol'] = user['id_rol']
+                if user['id_rol'] == 1:
+                    flash('¡Has iniciado sesión como administrador!', 'success')
+                    return render_template('admin.html', user=user)
+                elif user['id_rol'] == 2:
+                    flash('¡Has iniciado sesión como usuario!', 'success')
+                    return render_template('usuario.html', user=user)
+                else:
+                    flash('Rol de usuario no reconocido.', 'danger')
+                    return render_template('login.html')
+        flash('Credenciales incorrectas.', 'danger')
+        return render_template('login.html')
     return render_template('login.html')
 
 # -----------------------------------------------------------
@@ -270,6 +299,11 @@ def logout():
     flash('Has cerrado sesión.', 'success')
     return redirect(url_for('index'))
 
+@app.route('/recibo')
+def recibo(): # Nueva función para la página de recibo
+    # En una aplicación real, aquí se pasaría la información de la compra
+    return render_template('recibo.html')
+
 @app.route('/registros')
 def registros(): # Funcion para la ruta de registros
     return render_template('registros.html')
@@ -280,7 +314,27 @@ def productos(): # Funcion para la ruta de productos
 
 @app.route('/admin')
 def admin():
-    return render_template('admin.html')
+    # Establecer la conexión y el cursor
+    cursor = mysql.connection.cursor()
+    
+    # 1. Contar Usuarios (excluyendo administradores con id_rol = 1, según tu código)
+    # Asume que 'usuarios' es el nombre de la tabla de usuarios.
+    cursor.execute('SELECT COUNT(*) AS total_usuarios FROM usuarios WHERE id_rol != 1')
+    user_count = cursor.fetchone()['total_usuarios']
+    
+    # 2. Contar Productos
+    # Asume que 'productos' es el nombre de la tabla de productos.
+    cursor.execute('SELECT COUNT(*) AS total_productos FROM productos')
+    product_count = cursor.fetchone()['total_productos']
+    
+    cursor.close()
+    
+    # Renderizar la plantilla pasando los contadores
+    return render_template(
+        'admin.html',
+        total_usuarios=user_count,
+        total_productos=product_count
+    )
 
 @app.route('/servicios/<nombre>')
 def servicios(nombre): # Funcion para la ruta de servicios

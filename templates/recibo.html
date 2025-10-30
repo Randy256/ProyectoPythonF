@@ -1,0 +1,28 @@
+{% extends 'base.html' %} 
+
+{% block title %} Recibo de Compra {% endblock %} 
+
+{%block body %}
+<div class="container my-5">
+    <h1 class="text-center mb-4 text-success">✅ Compra Confirmada y Recibo</h1>
+    <div class="card shadow-lg p-4">
+        <h3 class="card-title">Detalles de la Transacción</h3>
+        <hr />
+        <p><strong>Número de Pedido:</strong> #458763A (Ejemplo)</p>
+        <p><strong>Fecha:</strong> 30 de Octubre de 2025</p>
+        <p><strong>Total Pagado:</strong> $90.00</p>
+        <hr />
+        <h4>Productos Adquiridos</h4>
+        <ul>
+            <li>Producto A (x1) - $50.00</li>
+            <li>Producto B (x2) - $30.00</li>
+        </ul>
+        <hr />
+        <p class="text-muted">Guardamos esta información de compra en tu historial de usuario.</p>
+
+        <a href="{{ url_for('index') }}" class="btn btn-primary mt-3">Volver a la Página Principal</a>
+        <button onclick="window.print()" class="btn btn-secondary mt-2">Imprimir Recibo</button>
+      </div>
+    </div>
+  </div>
+{% endblock %}

@@ -120,9 +120,10 @@
                     <td>{{mostrar.password}}</td>
                     <td>
                         <a href="/listar/{{mostrar.id}}" class="btn btn-success btn-sm" data-bs-toggle="modal"
-                            data-bs-target="#modaledit{{mostrar.id}}">Editar</a>
-                        <a href="javascript:void(0);" data-bs-toggle="mensaje" data-bs-placement="top"
-                            title="Eliminar producto..." onclick="confirmarEliminacion('/borrarUser/{{mostrar.id}}')"
+                            data-bs-target="#modaledit{{mostrar.id}}" data-bs-placement="top"
+                            title="Editar usuario...">Editar</a>
+                        <a href="javascript:void(0);" data-bs-toggle="tooltip" data-bs-placement="top"
+                            title="Eliminar usuario..." onclick="confirmarEliminacion('/borrarUser/{{mostrar.id}}')"
                             class="btn btn-danger btn-sm">Eliminar</a>
                     </td>
                 </tr>
