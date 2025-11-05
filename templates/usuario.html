@@ -1,19 +1,127 @@
-{% extends 'base.html' %}
-{% block title %} USUARIOS - Biblioteca de Útiles Escolares {% endblock %}
+{% extends 'base.html' %} {% block title %} USUARIOS - Biblioteca de Útiles
+Escolares {% endblock %} {% block body %}
 
-{% block body %}
 <div class="container m-5">
-    <h1 class="text-center">Página de Usuarios</h1>
-    <p class="text-center">Bienvenido a la página de usuarios de nuestra biblioteca de útiles escolares.</p>
-    <p class="text-center">En esta sección puedes gestionar tus datos de usuario, realizar pedidos de útiles escolares y
-        más.</p>
-    <hr>
-    <!-- Aquí puedes agregar el contenido específico de la página de usuarios -->
-    {% block usuario_content %}
+  <h1 class="text-center">Página de Usuarios</h1>
+  <p class="text-center">
+    Bienvenido a la página de usuarios de nuestra librería de útiles escolares.
+  </p>
+  <p class="text-center">
+    En esta sección puedes gestionar tus datos de usuario, revisar tus pedidos y
+    más.
+  </p>
+  <hr />
 
-    {% endblock %}
-    <div class="text-center mt-4">
-        <a href="{{ url_for('logout') }}" class="btn btn-danger btn-lg">Cerrar Sesión</a>
+  {% block usuario_content %}
+  <div class="row">
+    <div class="col-md-3">
+      <ul
+        class="nav flex-column nav-pills"
+        id="usuario-tabs"
+        role="tablist"
+        aria-orientation="vertical"
+      >
+        <li class="nav-item">
+          <a
+            class="nav-link active"
+            id="perfil-tab"
+            data-bs-toggle="pill"
+            href="#perfil"
+            role="tab"
+            >👤 Mi Perfil</a
+          >
+        </li>
+        <li class="nav-item">
+          <a
+            class="nav-link"
+            id="pedidos-tab"
+            data-bs-toggle="pill"
+            href="#pedidos"
+            role="tab"
+            >📦 Mis Pedidos</a
+          >
+        </li>
+        <li class="nav-item">
+          <a
+            class="nav-link"
+            id="direcciones-tab"
+            data-bs-toggle="pill"
+            href="#direcciones"
+            role="tab"
+            >🏠 Mis Direcciones</a
+          >
+        </li>
+      </ul>
     </div>
+    <div class="col-md-9">
+      <div class="tab-content">
+        <div class="tab-pane fade show active" id="perfil" role="tabpanel">
+          <h4>Detalles del Usuario</h4>
+          <p>Nombre: **{{ nombre }}**</p>
+          <p>Email: **{{ email }}**</p>
+          <button class="btn btn-sm btn-outline-primary">Editar Perfil</button>
+        </div>
+
+        <div class="tab-pane fade" id="pedidos" role="tabpanel">
+          <h4>Historial de Compras</h4>
+          {% if pedidos %}
+          <table class="table table-striped">
+            <thead>
+              <tr>
+                <th scope="col"># Pedido</th>
+                <th scope="col">Fecha</th>
+                <th scope="col">Total</th>
+                <th scope="col">Estado</th>
+                <th scope="col">Acción</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for pedido in pedidos %}
+              <tr>
+                <th scope="row">{{ pedido.id }}</th>
+                <td>{{ pedido.fecha }}</td>
+                <td>$ {{ "{:,.2f}".format(pedido.total) }}</td>
+                <td>
+                  <span class="badge bg-primary">{{ pedido.estado }}</span>
+                </td>
+                <td>
+                  <a
+                    href="{{ url_for('detalle_pedido', pedido_id=pedido.id) }}"
+                    class="btn btn-sm btn-outline-info"
+                    >Ver Detalle</a
+                  >
+                </td>
+              </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+          {% else %}
+          <div class="alert alert-warning" role="alert">
+            ¡Aún no has realizado ningún pedido! 🚀
+          </div>
+          {% endif %}
+        </div>
+
+        <div class="tab-pane fade" id="direcciones" role="tabpanel">
+          <h4>Gestión de Direcciones</h4>
+          <p>
+            Aquí puedes agregar, editar o eliminar tus direcciones de envío.
+          </p>
+          <div class="alert alert-info" role="alert">
+            Funcionalidad en desarrollo. ¡Próximamente podrás gestionar tus
+            direcciones! 🏡
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <hr />
+  {% endblock %}
+  <div class="text-center mt-4">
+    <a href="{{ url_for('logout') }}" class="btn btn-danger btn-lg"
+      >Cerrar Sesión</a
+    >
+  </div>
 </div>
 {% endblock %}

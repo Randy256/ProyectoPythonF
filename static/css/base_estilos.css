@@ -1,0 +1,14 @@
+/* static/css/estilo.css */
+
+/* Define una variable para tu color primario de fondo */
+:root {
+    --color-fondo-principal: #f0f8ff; /* Azul Alice Blue */
+}
+
+/* Aplica el color de fondo a la etiqueta body */
+.fondo-proyecto {
+    /* Usa el color de la variable */
+    background-color: var(--color-fondo-principal) !important;
+    /* Asegura que ocupe todo el viewport */
+    min-height: 100vh;
+}

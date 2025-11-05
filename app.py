@@ -185,7 +185,7 @@ def accesologin():
                 session['id_rol'] = user['id_rol']
                 if user['id_rol'] == 1:
                     flash('¡Has iniciado sesión como administrador!', 'success')
-                    return render_template('admin.html', user=user)
+                    return redirect('admin')
                 elif user['id_rol'] == 2:
                     flash('¡Has iniciado sesión como usuario!', 'success')
                     return render_template('usuario.html', user=user)
@@ -208,6 +208,7 @@ def agregarProducto():
         precio = request.form['precio']
         cantidad = request.form['cantidad']
         marca = request.form['marca']
+        registros = request.form['registro']
         caducidad_str = request.form.get('caducidad')
         descripcion = request.form['descripcion']
 
@@ -216,8 +217,8 @@ def agregarProducto():
 
         # Insertar el nuevo producto en la base de datos
         cursor.execute(
-            "INSERT INTO productos (nombre, precio, cantidad, marca, caducidad, descripcion) VALUES (%s, %s, %s, %s, %s, %s)",
-            (nombre, precio, cantidad, marca, caducidad_db, descripcion)
+            "INSERT INTO productos (nombre, precio, cantidad, marca, registro, caducidad, descripcion) VALUES (%s, %s, %s, %s, %s, %s, %s)",
+            (nombre, precio, cantidad, marca, registros, caducidad_db, descripcion)
         )
         mysql.connection.commit()
         flash('Producto agregado correctamente.', 'success')
@@ -255,6 +256,7 @@ def editar_producto(id):
         precio = request.form['precio']
         cantidad = request.form['cantidad']
         marca = request.form['marca']
+        registros = request.form['registro']
         caducidad_str = request.form.get('caducidad')
         descripcion = request.form['descripcion']
 
@@ -263,9 +265,9 @@ def editar_producto(id):
 
         cursor.execute("""
             UPDATE productos 
-            SET nombre = %s, precio = %s, cantidad = %s, marca = %s, caducidad = %s, descripcion = %s
+            SET nombre = %s, precio = %s, cantidad = %s, marca = %s, registro = %s, caducidad = %s, descripcion = %s
             WHERE id = %s
-        """, (nombre, precio, cantidad, marca, caducidad_db, descripcion, id))
+        """, (nombre, precio, cantidad, marca, registros, caducidad_db, descripcion, id))
         mysql.connection.commit()
         cursor.close()
 

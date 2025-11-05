@@ -1,163 +1,220 @@
-{% extends 'baseadmin.html' %}
-{% block title %} AGREGAR PRODUCTO {% endblock %}
-
+{% extends 'baseadmin.html' %} {% block title %} AGREGAR PRODUCTO {% endblock %}
 {% block body %}
 
 <!-- MENSAJE DE ALERTA SweetAlert2 -->
-{% with messages = get_flashed_messages(with_categories=true) %}
-{% if messages %}
+{% with messages = get_flashed_messages(with_categories=true) %} {% if messages
+%}
+
 <ul class="flashes">
-    {% for category, message in messages %}
-    <script type="text/javascript">
-        const Toast = Swal.mixin({
-            toast: true,
-            position: "top-end",
-            showConfirmButton: false,
-            timer: 2000,
-            timerProgressBar: true,
-            didOpen: (toast) => {
-                toast.onmouseenter = Swal.stopTimer;
-                toast.onmouseleave = Swal.resumeTimer;
-            }
-        });
-        Toast.fire({
-            icon: "success",
-            title: "{{ message }}"
-        });
-    </script>
-    {% endfor %}
+  {% for category, message in messages %}
+  <script type="text/javascript">
+    const Toast = Swal.mixin({
+      toast: true,
+      position: "top-end",
+      showConfirmButton: false,
+      timer: 2000,
+      timerProgressBar: true,
+      didOpen: (toast) => {
+        toast.onmouseenter = Swal.stopTimer;
+        toast.onmouseleave = Swal.resumeTimer;
+      },
+    });
+    Toast.fire({
+      icon: "success",
+      title: "{{ message }}",
+    });
+  </script>
+  {% endfor %}
 </ul>
-{% endif %}
-{% endwith %}
+{% endif %} {% endwith %}
 
 <!-- MENSAJE DE ALERTA PARA ELIMINACION SweetAlert2 -->
 <script>
-    function confirmarEliminacion(url) {
-        Swal.fire({
-            title: '¿Estás seguro?',
-            text: "¡No podrás revertir esto!",
-            icon: 'warning',
-            showCancelButton: true,
-            confirmButtonColor: '#d33',
-            cancelButtonColor: '#3085d6',
-            confirmButtonText: 'Sí, eliminar',
-            cancelButtonText: 'Cancelar'
-        }).then((result) => {
-            if (result.isConfirmed) {
-                window.location.href = url;
-            }
-        });
-    }
+  function confirmarEliminacion(url) {
+    Swal.fire({
+      title: "¿Estás seguro?",
+      text: "¡No podrás revertir esto!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#d33",
+      cancelButtonColor: "#3085d6",
+      confirmButtonText: "Sí, eliminar",
+      cancelButtonText: "Cancelar",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        window.location.href = url;
+      }
+    });
+  }
 </script>
 
-
 <div class="container mt-4">
-    <div class="row">
-        <!-- Formulario de agregar producto -->
-        <div class="col-md-5">
-            <div class="p-3 mb-3 rounded" style="background-color: #f8d7da;">
-                <h2 class="text-center fw-bold" style="color: #7c2d2d;">Agregar Producto</h2>
+  <div class="row">
+    <!-- Formulario de agregar producto -->
+    <div class="col-md-4">
+      <div class="p-3 mb-3 rounded" style="background-color: #f8d7da">
+        <h2 class="text-center fw-bold" style="color: #7c2d2d">
+          Agregar Producto
+        </h2>
+      </div>
+      <div class="card shadow-sm border-success mb-4">
+        <div class="card-body">
+          <form action="{{ url_for('agregarProducto') }}" method="POST">
+            <div class="mb-3">
+              <label for="nombre" class="form-label">Nombre del Producto</label>
+              <input
+                type="text"
+                class="form-control border-success"
+                id="nombre"
+                name="nombre"
+                required
+              />
             </div>
-            <div class="card shadow-sm border-success mb-4">
-                <div class="card-body">
-                    <form action="{{ url_for('agregarProducto') }}" method="POST">
-                        <div class="mb-3">
-                            <label for="nombre" class="form-label">Nombre del Producto</label>
-                            <input type="text" class="form-control border-success" id="nombre" name="nombre" required>
-                        </div>
-                        <div class="mb-3">
-                            <label for="marca" class="form-label">Marca</label>
-                            <input type="text" class="form-control border-success" id="marca" name="marca" required>
-                        </div>
-                        <div class="mb-3">
-                            <label for="precio" class="form-label">Precio</label>
-                            <input type="number" step="0.01" class="form-control border-success" id="precio"
-                                name="precio" required>
-                        </div>
-                        <div class="mb-3">
-                            <label for="cantidad" class="form-label">Cantidad</label>
-                            <input type="number" step="1" class="form-control border-success" id="cantidad"
-                                name="cantidad" required>
-                        </div>
-                        <div class="mb-3">
-                            <label for="caducidad" class="form-label">Fecha de Caducidad</label>
-                            <input type="date" class="form-control border-success" id="caducidad" name="caducidad">
-                        </div>
-                        <div class="mb-3">
-                            <label for="descripcion" class="form-label">Descripción</label>
-                            <textarea class="form-control border-success" id="descripcion" name="descripcion" rows="3"
-                                required></textarea>
-                        </div>
-                        <button type="submit" class="btn btn-outline-success">Agregar Producto</button>
-                    </form>
-
-                </div>
+            <div class="mb-3">
+              <label for="marca" class="form-label">Marca</label>
+              <input
+                type="text"
+                class="form-control border-success"
+                id="marca"
+                name="marca"
+                required
+              />
             </div>
+            <div class="mb-3">
+              <label for="precio" class="form-label">Precio</label>
+              <input
+                type="number"
+                step="0.01"
+                class="form-control border-success"
+                id="precio"
+                name="precio"
+                required
+              />
+            </div>
+            <div class="mb-3">
+              <label for="cantidad" class="form-label">Cantidad</label>
+              <input
+                type="number"
+                step="1"
+                class="form-control border-success"
+                id="cantidad"
+                name="cantidad"
+                required
+              />
+            </div>
+            <div class="mb-3">
+              <label for="registro" class="form-label"
+                >Fecha de Registros</label
+              >
+              <input
+                type="date"
+                class="form-control border-success"
+                id="registro"
+                name="registro"
+                required
+              />
+            </div>
+            <div class="mb-3">
+              <label for="caducidad" class="form-label"
+                >Fecha de Caducidad</label
+              >
+              <input
+                type="date"
+                class="form-control border-success"
+                id="caducidad"
+                name="caducidad"
+              />
+            </div>
+            <div class="mb-3">
+              <label for="descripcion" class="form-label">Descripción</label>
+              <textarea
+                class="form-control border-success"
+                id="descripcion"
+                name="descripcion"
+                rows="3"
+                required
+              ></textarea>
+            </div>
+            <button type="submit" class="btn btn-outline-success">
+              Agregar Producto
+            </button>
+          </form>
         </div>
-
-        <!-- Lista de productos -->
-        <div class="col-md-7">
-            <div class="p-3 mb-3 rounded" style="background-color: #d1f3fa;">
-                <h2 class="text-center fw-bold" style="color: #008b8b;">Lista de Productos</h2>
-            </div>
-            <div class="table-responsive">
-                {% if productos %}
-                <table id="tablaProductos" class="table table-bordered table-striped align-middle">
-                    <thead class="table-dark">
-                        <tr>
-                            <th>ID</th>
-                            <th>Nombre</th>
-                            <th>Marca</th>
-                            <th>Precio</th>
-                            <th>Cantidad</th>
-                            <th>Fecha de Caducidad</th>
-                            <th>Descripción</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {% for producto in productos %}
-                        <tr>
-                            <td>{{ producto.id }}</td>
-                            <td>{{ producto.nombre }}</td>
-                            <td>{{ producto.marca }}</td>
-                            <td>{{ producto.precio }}</td>
-                            <td>{{ producto.cantidad }}</td>
-                            <td>{{ producto.caducidad if producto.caducidad else "Producto sin caducidad" }}</td>
-                            <td>{{ producto.descripcion }}</td>
-                        </tr>
-                        {% endfor %}
-                    </tbody>
-                </table>
-                {% else %}
-                <p>No hay productos agregados</p>
-                {% endif %}
-
-            </div>
-        </div>
+      </div>
     </div>
+
+    <!-- Lista de productos -->
+    <div class="col-md-7">
+      <div class="p-3 mb-3 rounded" style="background-color: #d1f3fa">
+        <h2 class="text-center fw-bold" style="color: #008b8b">
+          Lista de Productos
+        </h2>
+      </div>
+      <div class="table-responsive">
+        {% if productos %}
+        <table
+          id="tablaProductos"
+          class="table table-bordered table-hover table-striped align-middle"
+        >
+          <thead class="table-dark">
+            <tr>
+              <th>ID</th>
+              <th>Nombre</th>
+              <th>Marca</th>
+              <th>Precio</th>
+              <th>Cantidad</th>
+              <th>Fecha de Registros</th>
+              <th>Fecha de Caducidad</th>
+              <th>Descripción</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for producto in productos %}
+            <tr>
+              <td>{{ producto.id }}</td>
+              <td>{{ producto.nombre }}</td>
+              <td>{{ producto.marca }}</td>
+              <td>{{ producto.precio }}</td>
+              <td>{{ producto.cantidad }}</td>
+              <td>{{ producto.registro }}</td>
+              <td>
+                {{ producto.caducidad if producto.caducidad else "Producto sin
+                caducidad" }}
+              </td>
+              <td>{{ producto.descripcion }}</td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+        {% else %}
+        <p>No hay productos agregados</p>
+        {% endif %}
+      </div>
+    </div>
+  </div>
 </div>
 
 <!-- Script para agregar productos dinámicamente -->
 <script>
-    function agregarProducto() {
-        const nombre = document.getElementById("nombre").value;
-        const precio = document.getElementById("precio").value;
-        const cantidad = document.getElementById("cantidad").value;
-        const descripcion = document.getElementById("descripcion").value;
+  function agregarProducto() {
+    const nombre = document.getElementById("nombre").value;
+    const precio = document.getElementById("precio").value;
+    const cantidad = document.getElementById("cantidad").value;
+    const descripcion = document.getElementById("descripcion").value;
 
-        // Guardar el producto en la sesión del usuario
-        session['productos'] = session['productos'] || [];
-        const newProducto = {
-            'id': session['productos'].length + 1,
-            'nombre': nombre,
-            'precio': precio,
-            'cantidad': cantidad,
-            'descripcion': descripcion
-        };
-        session['productos'].push(newProducto);
+    // Guardar el producto en la sesión del usuario
+    session["productos"] = session["productos"] || [];
+    const newProducto = {
+      id: session["productos"].length + 1,
+      nombre: nombre,
+      precio: precio,
+      cantidad: cantidad,
+      descripcion: descripcion,
+    };
+    session["productos"].push(newProducto);
 
-        // Redirigir a la pantalla de lista de productos
-        window.location.href = '/productos/listar';
-    }
+    // Redirigir a la pantalla de lista de productos
+    window.location.href = "/productos/listar";
+  }
 </script>
 {% endblock %}

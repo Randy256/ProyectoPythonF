@@ -2,6 +2,8 @@
 {% block title %}Lista de Usuarios{% endblock %}
 {% block body %}
 
+
+
 <!-- MENSAJE DE ALERTA SweetAlert2 -->
 {% with messages = get_flashed_messages(with_categories=true) %}
 {% if messages %}
@@ -100,16 +102,14 @@
 
     {% if usuarios %}
     <!-- Tabla de Usuarios -->
-    <div class="caja">
-        <table class="table table-hover table-striped">
+    <div class="table-responsive">
+        <table class="table table-hover table-bordered table-striped">
             <thead class="table-dark">
                 <tr>
                     <th scope="col">Nº</th>
                     <th scope="col">Nombre</th>
                     <th scope="col">Correo</th>
-                    <th scope="col">Password</th>
-                    <th scope="col">Acciones</th>
-                </tr>
+                    <th scope="col" class="text-nowrap">Password</th> <th scope="col" class="text-nowrap">Acciones</th> </tr>
             </thead>
             <tbody>
                 {% for mostrar in usuarios %}
@@ -117,14 +117,12 @@
                     <td>{{mostrar.id}}</td>
                     <td>{{mostrar.nombre}}</td>
                     <td>{{mostrar.email}}</td>
-                    <td>{{mostrar.password}}</td>
-                    <td>
-                        <a href="/listar/{{mostrar.id}}" class="btn btn-success btn-sm" data-bs-toggle="modal"
+                    <td class="text-nowrap">{{mostrar.password}}</td> <td class="d-flex gap-2 justify-content-center text-nowrap"> <a href="/listar/{{mostrar.id}}" class="btn btn-success btn-sm" data-bs-toggle="modal"
                             data-bs-target="#modaledit{{mostrar.id}}" data-bs-placement="top"
                             title="Editar usuario...">Editar</a>
                         <a href="javascript:void(0);" data-bs-toggle="tooltip" data-bs-placement="top"
                             title="Eliminar usuario..." onclick="confirmarEliminacion('/borrarUser/{{mostrar.id}}')"
-                            class="btn btn-danger btn-sm">Eliminar</a>
+                            class="btn btn-danger btn-sm">Borrar</a>
                     </td>
                 </tr>
                 <!-- MODAL editar usuario -->
