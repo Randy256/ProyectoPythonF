@@ -55,7 +55,7 @@ messages%}
             Lista de Productos (Total: {{ productos | length }})
           </h2>
         </div>
-        <div class="card-body bg-success bg-opacity-10">
+        <div class="card-body bg-info bg-opacity-10">
           <table
             id="tablaProductos"
             class="table table-striped table-bordered table-hover"
@@ -208,6 +208,26 @@ messages%}
     color: white;
     background-color: #6c757d;
     border-color: white;
+  }
+</style>
+<style>
+  /* Define un verde más claro (por ejemplo, el color #20c997 de Bootstrap o uno personalizado) */
+  .btn-outline-success {
+    color: #28a745; /* Color del texto por defecto, si quieres que se vea mejor en el fondo verde de la página */
+    border-color: #28a745;
+  }
+
+  /* Fuerza un color de texto verde claro para el botón Excel */
+  .btn-outline-success .bi-file-earmark-excel,
+  .btn-outline-success {
+    /* Usamos un color verde claro que funcione con el fondo */
+    color: #38c172 !important; /* Un verde vibrante para contraste */
+    border-color: #38c172 !important;
+  }
+
+  /* Cuando pasas el ratón (hover), el fondo se vuelve sólido, así que el texto debe ser blanco */
+  .btn-outline-success:hover {
+    color: white !important;
   }
 </style>
 {% endblock %}
