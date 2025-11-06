@@ -29,9 +29,35 @@ def demo_flash():
     flash('Mensaje de Error con Flash', 'error')
     return redirect(url_for('index'))
 
-@app.route('/contacto')
+@app.route('/contacto', methods=['GET', 'POST'])
 def contacto(): # Funcion para la ruta de contacto
-    return render_template('contacto.html')
+    # ----------------------------------------------------------------------
+    # La ruta '/contacto' ahora maneja la lógica del formulario de contacto
+    # ----------------------------------------------------------------------
+    if request.method == 'POST':
+        # 1. Obtener los datos del formulario (los nombres coinciden con el HTML)
+        nombre = request.form.get('nombre')
+        email = request.form.get('email')
+        asunto = request.form.get('asunto')
+        mensaje = request.form.get('mensaje')
+
+        # 2. >>> LÓGICA DE PROCESAMIENTO REAL VA AQUÍ <<<
+        #    Aquí deberías conectar a tu base de datos MySQL para guardar
+        #    el mensaje en una tabla (por ejemplo, 'mensajes') o usar una 
+        #    librería para enviar un correo electrónico con esta información.
+        
+        # Muestra en la consola del servidor (para depuración)
+        print(f"NUEVO MENSAJE DE CONTACTO RECIBIDO:\nNombre: {nombre}\nEmail: {email}\nAsunto: {asunto}\nMensaje: {mensaje}")
+        
+        # 3. Mostrar un mensaje de éxito al usuario (usando Flask flash)
+        flash('¡Tu mensaje ha sido enviado correctamente! Te contactaremos pronto.', 'success')
+        
+        # 4. Redirigir al usuario a la misma ruta para evitar reenvío del formulario
+        return redirect(url_for('contacto'))
+        
+    # Si la solicitud es GET, simplemente renderiza la plantilla nueva
+    # que contiene el formulario.
+    return render_template('contacto_ventas.html')
 
 @app.route('/usuario')
 def usuario():

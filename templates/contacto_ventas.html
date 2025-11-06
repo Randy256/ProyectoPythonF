@@ -1,0 +1,83 @@
+{% extends 'base.html' %} {% block title %} 📧 Contáctanos | Librería {%
+endblock %} {% block body %}
+<div class="container mt-5">
+  <div class="row justify-content-center">
+    <div class="col-md-8 col-lg-6">
+      <div class="card shadow-lg border-0">
+        <div class="card-header bg-success text-white text-center">
+          <h2 class="mb-0">¿En qué podemos ayudarte?</h2>
+          <p class="mb-0 lead">
+            Envíanos un mensaje y te responderemos pronto.
+          </p>
+        </div>
+
+        <div class="card-body p-4">
+          <form action="{{ url_for('contacto') }}" method="POST">
+            <div class="mb-3">
+              <label for="nombre" class="form-label fw-bold"
+                >Nombre Completo:</label
+              >
+              <input
+                type="text"
+                class="form-control"
+                id="nombre"
+                name="nombre"
+                required
+              />
+            </div>
+
+            <div class="mb-3">
+              <label for="email" class="form-label fw-bold"
+                >Correo Electrónico:</label
+              >
+              <input
+                type="email"
+                class="form-control"
+                id="email"
+                name="email"
+                required
+              />
+              <div id="emailHelp" class="form-text">
+                Nunca compartiremos tu email con nadie.
+              </div>
+            </div>
+
+            <div class="mb-3">
+              <label for="asunto" class="form-label fw-bold">Asunto:</label>
+              <input
+                type="text"
+                class="form-control"
+                id="asunto"
+                name="asunto"
+                required
+              />
+            </div>
+
+            <div class="mb-4">
+              <label for="mensaje" class="form-label fw-bold">Mensaje:</label>
+              <textarea
+                class="form-control"
+                id="mensaje"
+                name="mensaje"
+                rows="5"
+                required
+              ></textarea>
+            </div>
+
+            <div class="d-grid">
+              <button type="submit" class="btn btn-success btn-lg">
+                Enviar Mensaje
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+
+      <div class="text-center mt-4">
+        <p>También puedes llamarnos al: <strong>+56 9 1234 5678</strong></p>
+      </div>
+    </div>
+  </div>
+</div>
+
+{% endblock %}
