@@ -1,0 +1,76 @@
+/* =======================================
+   ESTILOS PERSONALIZADOS PARA LISTAR PRODUCTOS
+   ======================================= */
+
+/* Estilos para el botón Copiar (Sobrescribe btn-outline-primary para un azul más claro) */
+.btn-outline-primary {
+    /* Color inicial del texto y borde: Azul claro vibrante */
+    color: #0d6efd !important; /* Azul primario de Bootstrap (puedes cambiarlo a #0dcaf0 si prefieres un azul más claro) */
+    border-color: #0d6efd !important;
+}
+
+/* Estilo al pasar el ratón (hover) */
+.btn-outline-primary:hover {
+    color: white !important; /* Texto blanco al hacer hover */
+    background-color: #0d6efd !important;
+    border-color: #0d6efd !important;
+}
+
+/* Asegura que el ícono y texto usen el color correcto */
+.btn-outline-primary .bi-clipboard,
+.btn-outline-primary span {
+    color: #0dcaf0 !important;
+}
+
+/* Asegura que el ícono y texto sean blancos en hover */
+.btn-outline-primary:hover .bi-clipboard,
+.btn-outline-primary:hover span {
+    color: white !important;
+}
+
+/* ---------------------------------------------------- */
+
+/* Estilos para el botón Excel (Sobrescribe btn-outline-success para mejorar la visibilidad) */
+.btn-outline-success {
+    /* Color inicial del texto y borde */
+    color: #38c172 !important; 
+    border-color: #38c172 !important;
+}
+
+/* Asegura que el ícono y texto usen el color claro */
+/* Se aplica a ambos para que al inicio sean del color deseado */
+.btn-outline-success .bi-file-earmark-excel,
+.btn-outline-success span { /* Añadido 'span' para asegurar que el texto también se coloree */
+    color: #38c172 !important;
+}
+
+
+/* Estilo al pasar el ratón (hover) */
+.btn-outline-success:hover {
+    color: white !important; /* El texto se vuelve blanco al hacer hover */
+    background-color: #38c172 !important;
+    border-color: #38c172 !important;
+}
+
+/* Estilo al pasar el ratón (hover) específicamente para el ícono y el texto */
+.btn-outline-success:hover .bi-file-earmark-excel,
+.btn-outline-success:hover span { /* Añadido 'span' aquí también */
+    color: white !important;
+}
+
+
+/* ---------------------------------------------------- */
+
+/* Estilos para el botón Imprimir (Clase .btn-imprimir) */
+.btn-imprimir {
+    color: white;
+    background-color: #6c757d;
+    border-color: white;
+}
+
+.btn-imprimir:hover {
+    color: #212529;
+    border-color: white;
+    background-color: white;
+    transition: all 0.3s ease;
+}
