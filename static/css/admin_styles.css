@@ -1,0 +1,17 @@
+/* admin_styles.css */
+
+.card-hover-shadow {
+  /* Agrega una sombra sutil por defecto (opcional) */
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  /* Añade una transición para animar suavemente la sombra y la transformación */
+  transition: all 0.3s ease-in-out;
+}
+
+/* Efecto al pasar el mouse */
+.card-hover-shadow:hover {
+  /* Sombra más prominente: horizontal-offset vertical-offset blur-radius spread-radius color */
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.4);
+  /* Opcional: Levantar la tarjeta ligeramente para un mejor efecto */
+  transform: translateY(-5px);
+  cursor: pointer; /* Cambia el cursor para indicar interactividad */
+}
