@@ -1,11 +1,11 @@
 ## Vista Principal
 
-![alt text](/static/img/imagen-1.png)
+![alt text](vista-principal.png)
 
 ## Vista de acceso
 
-![alt text](/static/img/imagen-2.png)
+![alt text](vista-acceso.png)
 
 ## Vista dashboard (panel)
 
-![alt text](/static/img/imagen-3.png)
+![alt text](vista-dashboard.png)
