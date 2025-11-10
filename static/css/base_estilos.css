@@ -12,3 +12,28 @@
     /* Asegura que ocupe todo el viewport */
     min-height: 100vh;
 }
+
+a.text-white:hover {
+    color: #14b477 !important;
+    /* Cambia este color por el que prefieras */
+    text-decoration: underline;
+  }
+
+  /* Nuevo estilo añadido a base_estilos.css */
+a.link-hover-green:hover {
+  /* Usando el mismo color que definiste para el footer */
+  color: #14b477 !important;
+  text-decoration: underline;
+}
+
+/* Añade esta regla a base_estilos.css */
+a.link-custom-hover:hover {
+  color: #9f14b4 !important;
+  text-decoration: underline;
+}
+
+/* Opcional: Para el enlace del footer (si no lo habías añadido antes): */
+a.text-white:hover {
+  color: #14b477 !important;
+  text-decoration: underline;
+}
