@@ -1,11 +1,11 @@
 ## Vista Principal
 
-![alt text](vista-principal.png)
+![Vista Principal](https://raw.githubusercontent.com/Randy256/ProyectoPythonF/main/vista-principal.png)
 
 ## Vista de acceso
 
-![alt text](vista-acceso.png)
+![Vista de acceso](https://raw.githubusercontent.com/Randy256/ProyectoPythonF/main/vista-acceso.png)
 
-## Vista dashboard (panel)
+## Vista Dashboard (panel)
 
-![alt text](vista-dashboard.png)
+![Vista Dashboard (panel)](https://raw.githubusercontent.com/Randy256/ProyectoPythonF/main/vista-dashboard.png)
