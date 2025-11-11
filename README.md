@@ -2,9 +2,11 @@
 
 **Crear el archivo:**
 pip freeze > requirements.txt
+
 **Instalarlo**
 pip install -r requirements.txt
-Crear el archivo .gitignore
+
+**Crear el archivo .gitignore**
 **gitignore**
 .gitignore
 Venv/
