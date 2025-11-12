@@ -123,5 +123,29 @@ Escolares {% endblock %} {% block body %}
       >Cerrar Sesión</a
     >
   </div>
+  <script>
+    document.addEventListener("DOMContentLoaded", function () {
+      const logoutBtn = document.querySelector(
+        'a[href="{{ url_for("logout") }}"]'
+      );
+      if (logoutBtn) {
+        logoutBtn.addEventListener("click", function (e) {
+          e.preventDefault();
+          Swal.fire({
+            title: "¿Está seguro que desea salir la pantalla de usuario?",
+
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonText: "Sí, salir",
+            cancelButtonText: "Cancelar",
+          }).then((result) => {
+            if (result.isConfirmed) {
+              window.location.href = logoutBtn.href;
+            }
+          });
+        });
+      }
+    });
+  </script>
 </div>
 {% endblock %}
